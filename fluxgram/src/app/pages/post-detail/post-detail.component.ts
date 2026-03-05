@@ -202,16 +202,15 @@ export class PostDetailComponent implements OnInit {
 
     try {
       const imageUrl = currentPost.images[0];
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      // Use direct download without fetch to avoid CORS issues
       const link = document.createElement('a');
-      link.href = url;
+      link.href = imageUrl;
       link.download = `fluxgram-${currentPost.id}.jpg`;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Failed to download image:', error);
       alert('Failed to download image. Please try again.');

@@ -1,0 +1,38 @@
+<div class="home-container">
+  <div class="home-feed">
+    <app-story-bar />
+    
+    @if (loading()) {
+      <div class="loading-state">
+        <div class="skeleton-loader">
+          <div class="skeleton-post"></div>
+          <div class="skeleton-post"></div>
+        </div>
+      </div>
+    }
+    
+    @if (posts().length === 0 && !loading()) {
+      <div class="empty-state">
+        <div class="empty-icon">✨</div>
+        <h3>No posts yet</h3>
+        <p>Follow people or create your first post!</p>
+        <button class="btn-primary" (click)="refresh()">Refresh Feed</button>
+      </div>
+    }
+    
+    @for (post of posts(); track post.id) {
+      <app-post-card [post]="post" />
+    }
+  </div>
+  
+  <aside class="home-sidebar">
+    <app-suggestions />
+  </aside>
+  
+  <a routerLink="/create" class="fab" title="Create Post">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+  </a>
+</div>

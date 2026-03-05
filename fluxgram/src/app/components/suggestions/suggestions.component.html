@@ -1,0 +1,47 @@
+<div class="suggestions-panel">
+  <!-- Current User -->
+  @if (currentUser()) {
+    <div class="current-user">
+      <a [routerLink]="['/profile', currentUser()?.username]" class="user-link">
+        <img [src]="currentUser()?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop'" 
+             [alt]="currentUser()?.username" 
+             class="user-avatar">
+        <div class="user-info">
+          <span class="username">{{ currentUser()?.username || 'User' }}</span>
+          <span class="name">{{ currentUser()?.fullName || currentUser()?.username }}</span>
+        </div>
+      </a>
+      <a routerLink="/settings" class="switch-btn">Switch</a>
+    </div>
+  }
+
+  <!-- Suggestions Header -->
+  <div class="suggestions-header">
+    <span class="title">Suggested for you</span>
+    <a routerLink="/explore" class="see-all-btn">See All</a>
+  </div>
+
+  <!-- Suggestions List (Limited to 3) -->
+  <div class="suggestions-list">
+    @for (user of limitedSuggestions(); track user.id) {
+      <div class="suggestion-item">
+        <a [routerLink]="['/profile', user.username]" class="suggestion-link">
+          <img [src]="user.avatar" [alt]="user.username" class="suggestion-avatar">
+          <div class="suggestion-info">
+            <span class="suggestion-username">{{ user.username }}</span>
+            <span class="suggestion-reason">{{ user.reason }}</span>
+          </div>
+        </a>
+        <button class="follow-btn" [class.following]="user.following" (click)="toggleFollow(user)">
+          {{ user.following ? 'Following' : 'Follow' }}
+        </button>
+      </div>
+    }
+    
+    @if (limitedSuggestions().length === 0) {
+      <div class="no-suggestions">
+        <p>No suggestions available</p>
+      </div>
+    }
+  </div>
+</div>

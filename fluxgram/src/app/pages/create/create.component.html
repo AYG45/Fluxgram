@@ -1,0 +1,123 @@
+<div class="create-page">
+  <div class="create-container">
+    <!-- Header -->
+    <header class="create-header">
+      <h1>Create</h1>
+      <p class="subtitle">Share your moments with the world</p>
+    </header>
+
+    <!-- Create Options -->
+    <div class="create-options">
+      <div class="option-card" (click)="selectType('post')">
+        <div class="option-icon post-icon">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <h3>Post</h3>
+        <p>Share photos and videos</p>
+      </div>
+
+      <div class="option-card" (click)="selectType('story')">
+        <div class="option-icon story-icon">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <h3>Story</h3>
+        <p>Share moments that disappear</p>
+      </div>
+
+      <div class="option-card" (click)="selectType('reel')">
+        <div class="option-icon reel-icon">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+        </div>
+        <h3>Reel</h3>
+        <p>Create short videos</p>
+      </div>
+
+      <div class="option-card" (click)="selectType('live')">
+        <div class="option-icon live-icon">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </div>
+        <h3>Live</h3>
+        <p>Go live with your followers</p>
+      </div>
+    </div>
+
+    <!-- Upload Area -->
+    @if (selectedType()) {
+      <div class="upload-section">
+        <div class="upload-area" 
+             [class.has-file]="selectedFile()"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)">
+          @if (!selectedFile()) {
+            <div class="upload-placeholder">
+              <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              <h3>Drag photos and videos here</h3>
+              <p>or click to select from your device</p>
+              <button class="select-btn" (click)="fileInput.click()">Select Files</button>
+              <input #fileInput type="file" accept="image/*,video/*" multiple hidden (change)="onFileSelect($event)">
+            </div>
+          } @else {
+            <div class="preview-area">
+              <img [src]="previewUrl()" alt="Preview" class="preview-image">
+              <button class="remove-btn" (click)="removeFile()">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+          }
+        </div>
+
+        <!-- Caption & Settings -->
+        @if (selectedFile()) {
+          <div class="post-settings">
+            <div class="caption-input">
+              <textarea [(ngModel)]="caption" placeholder="Write a caption..." rows="4"></textarea>
+              <div class="caption-footer">
+                <button class="emoji-btn">😊</button>
+                <span class="char-count">{{ caption().length }}/2200</span>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <div class="setting-item">
+                <span>Add location</span>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </div>
+              <div class="setting-item">
+                <span>Tag people</span>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </div>
+              <div class="setting-item">
+                <span>Add music</span>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button class="cancel-btn" (click)="cancel()">Cancel</button>
+              <button class="share-btn" [disabled]="!selectedFile()">Share</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

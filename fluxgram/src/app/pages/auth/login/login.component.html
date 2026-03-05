@@ -1,0 +1,54 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1 class="logo">Fluxgram</h1>
+    </div>
+
+    <form class="auth-form" (ngSubmit)="onSubmit()">
+      @if (error()) {
+        <div class="error-message">{{ error() }}</div>
+      }
+
+      <input
+        type="email"
+        placeholder="Email"
+        [(ngModel)]="email"
+        name="email"
+        class="input"
+        required>
+
+      <input
+        type="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+        name="password"
+        class="input"
+        required>
+
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="loading()">
+        {{ loading() ? 'Logging in...' : 'Log in' }}
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <button class="btn-secondary">
+      <span>📱</span>
+      Log in with Phone Number
+    </button>
+
+    <a href="#" class="forgot-link">Forgot password?</a>
+  </div>
+
+  <div class="auth-card signup-card">
+    <p>
+      Don't have an account?
+      <a [routerLink]="['/register']" class="link">Sign up</a>
+    </p>
+  </div>
+</div>

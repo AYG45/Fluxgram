@@ -1,0 +1,36 @@
+<div class="notifications-page">
+  <div class="notifications-container">
+    <header class="page-header">
+      <h1>Notifications</h1>
+    </header>
+
+    @if (notifications().length === 0) {
+      <div class="empty-state">
+        <p>No notifications yet</p>
+      </div>
+    } @else {
+      <div class="notifications-list">
+        @for (notif of notifications(); track notif.id) {
+          <div class="notification-item" [class.unread]="!notif.read" (click)="markAsReadAndNavigate(notif)">
+            <img [src]="notif.avatar" alt="" class="notif-avatar">
+            <div class="notif-content">
+              <p class="notif-text">
+                <span class="notif-username">{{ notif.username }}</span>
+                {{ getNotificationText(notif) }}
+                <span class="notif-time">{{ getTimeAgo(notif.time) }}</span>
+              </p>
+            </div>
+            @if (notif.type === 'follow') {
+              <button class="follow-btn" [class.following]="notif.following" (click)="toggleFollow(notif); $event.stopPropagation()">
+                {{ notif.following ? 'Following' : 'Follow' }}
+              </button>
+            }
+            @if (notif.postImage) {
+              <img [src]="notif.postImage" alt="" class="notif-post">
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

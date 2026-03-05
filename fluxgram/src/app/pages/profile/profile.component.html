@@ -1,0 +1,315 @@
+<div class="profile">
+  @if (loading()) {
+    <div class="loading">Loading profile...</div>
+  } @else if (user()) {
+    <header class="profile-header">
+      <img [src]="user()!.avatar" [alt]="user()!.username" class="profile-avatar">
+      
+      <div class="profile-info">
+        <div class="profile-top">
+          <h1 class="username">{{ user()!.username }}</h1>
+          @if (user()!.followsYou && currentUser()?.username !== user()!.username) {
+            <span class="follows-you-badge">Follows you</span>
+          }
+          @if (currentUser()?.username !== user()!.username) {
+            <button class="btn-primary" (click)="toggleFollow()">
+              {{ user()!.isFollowing ? 'Unfollow' : 'Follow' }}
+            </button>
+          }
+        </div>
+
+        <div class="profile-stats">
+          <div class="stat">
+            <span class="count">{{ user()!.posts }}</span>
+            <span class="label">posts</span>
+          </div>
+          <div class="stat">
+            <span class="count">{{ user()!.followers }}</span>
+            <span class="label">followers</span>
+          </div>
+          <div class="stat">
+            <span class="count">{{ user()!.following }}</span>
+            <span class="label">following</span>
+          </div>
+        </div>
+
+        <div class="profile-bio">
+          <p class="full-name">{{ user()!.fullName }}</p>
+          <p class="bio">{{ user()!.bio }}</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="profile-tabs">
+      <button class="tab" [class.active]="activeTab() === 'posts'" (click)="switchTab('posts')">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span>POSTS</span>
+      </button>
+      @if (currentUser()?.username === user()!.username) {
+        <button class="tab" [class.active]="activeTab() === 'saved'" (click)="switchTab('saved')">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" stroke="currentColor" stroke-width="2">
+            <path d="M20 21V3H4v18l8-6Z"/>
+          </svg>
+          <span>SAVED</span>
+        </button>
+      }
+      <button class="tab" [class.active]="activeTab() === 'tagged'" (click)="switchTab('tagged')">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>TAGGED</span>
+      </button>
+    </div>
+
+    @if (activeTab() === 'posts') {
+      @if (posts().length > 0) {
+        <div class="profile-grid">
+          @for (post of posts(); track post.id) {
+            <div class="grid-item" (click)="openPost(post)">
+              <img [src]="post.images[0]" alt="">
+              <div class="grid-overlay">
+                <span class="stat">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
+                    <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938Z"/>
+                  </svg>
+                  {{ post.likes }}
+                </span>
+                <span class="stat">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  {{ post.comments }}
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-posts">
+          <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" class="empty-icon-svg">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <h3>No Posts Yet</h3>
+          <p>When you share photos, they'll appear here.</p>
+          @if (currentUser()?.username === user()!.username) {
+            <button class="btn-primary" routerLink="/create">Create Your First Post</button>
+          }
+        </div>
+      }
+    }
+
+    @if (activeTab() === 'saved') {
+      @if (savedPosts().length > 0) {
+        <div class="profile-grid">
+          @for (post of savedPosts(); track post.id) {
+            <div class="grid-item" (click)="openPost(post)">
+              <img [src]="post.images[0]" alt="">
+              <div class="grid-overlay">
+                <span class="stat">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
+                    <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938Z"/>
+                  </svg>
+                  {{ post.likes }}
+                </span>
+                <span class="stat">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="white">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                  {{ post.comments }}
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-posts">
+          <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" class="empty-icon-svg">
+            <path d="M20 21V3H4v18l8-6Z"/>
+          </svg>
+          <h3>No Saved Posts</h3>
+          <p>Save posts to see them here.</p>
+        </div>
+      }
+    }
+
+    @if (activeTab() === 'tagged') {
+      <div class="empty-posts">
+        <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" class="empty-icon-svg">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <h3>No Tagged Posts</h3>
+        <p>Photos you're tagged in will appear here.</p>
+      </div>
+    }
+  } @else {
+    <div class="error">{{ error() || 'Profile not found' }}</div>
+  }
+</div>
+
+<!-- Post Modal -->
+@if (selectedPost()) {
+  <div class="post-modal" (click)="closePost()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closePost()">✕</button>
+      
+      <div class="modal-layout">
+        <div class="modal-image">
+          <img [src]="selectedPost()!.images[0]" alt="">
+        </div>
+        
+        <div class="modal-sidebar">
+          <div class="post-header">
+            <img [src]="selectedPost()!.userAvatar" alt="" class="post-avatar">
+            <div class="post-user-info">
+              <span class="post-username">{{ selectedPost()!.username }}</span>
+            </div>
+          </div>
+
+          <div class="post-caption">
+            <img [src]="selectedPost()!.userAvatar" alt="" class="caption-avatar">
+            <div>
+              <span class="caption-username">{{ selectedPost()!.username }}</span>
+              <span class="caption-text">{{ selectedPost()!.caption }}</span>
+            </div>
+          </div>
+
+          <div class="post-actions">
+            <div class="action-buttons">
+              <button class="action-btn" (click)="likePost()" title="Like">
+                @if (selectedPost()!.isLiked) {
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#ed4956">
+                    <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938Z"/>
+                  </svg>
+                } @else {
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938Z"/>
+                  </svg>
+                }
+              </button>
+              <button class="action-btn" title="Comment">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+              </button>
+              <button class="action-btn" (click)="savePost()" title="Save">
+                @if (selectedPost()!.isSaved) {
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M20 22a.999.999 0 0 1-.687-.273L12 14.815l-7.313 6.912A1 1 0 0 1 3 21V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1Z"/>
+                  </svg>
+                } @else {
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21V3H4v18l8-6Z"/>
+                  </svg>
+                }
+              </button>
+              @if (isOwnPost(selectedPost()!)) {
+                <button class="action-btn delete-btn" (click)="deleteSelectedPost()" title="Delete post">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    <line x1="10" y1="11" x2="10" y2="17"/>
+                    <line x1="14" y1="11" x2="14" y2="17"/>
+                  </svg>
+                </button>
+              }
+            </div>
+            
+            <div class="post-likes">
+              <strong>{{ selectedPost()!.likes }} likes</strong>
+            </div>
+            
+            <div class="post-time">
+              {{ selectedPost()!.createdAt | date:'short' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Edit Profile Modal -->
+@if (showEditModal()) {
+  <div class="edit-modal" (click)="closeEditModal()">
+    <div class="edit-modal-content" (click)="$event.stopPropagation()">
+      <div class="edit-modal-header">
+        <h2>Edit Profile</h2>
+        <button class="modal-close" (click)="closeEditModal()">✕</button>
+      </div>
+
+      <div class="edit-modal-body">
+        <div class="edit-avatar-section">
+          <img [src]="previewAvatar()" alt="Avatar" class="edit-avatar-preview">
+          <div>
+            <h3>{{ user()!.username }}</h3>
+            <label class="change-photo-btn">
+              Change profile photo
+              <input type="file" accept="image/*" hidden (change)="onAvatarSelect($event)">
+            </label>
+          </div>
+        </div>
+
+        @if (editError()) {
+          <div class="edit-error">{{ editError() }}</div>
+        }
+
+        <div class="edit-form">
+          <div class="form-group">
+            <label>Username</label>
+            <input 
+              type="text" 
+              [value]="editForm().username"
+              (input)="onUsernameChange($any($event.target).value)"
+              placeholder="Enter your username"
+              [disabled]="editLoading()">
+            @if (checkingUsername()) {
+              <span class="field-hint checking">Checking availability...</span>
+            } @else if (usernameAvailable() === true && editForm().username !== user()?.username) {
+              <span class="field-hint success">✓ Username is available</span>
+            } @else if (usernameAvailable() === false) {
+              <span class="field-hint error">✗ Username is not available</span>
+            } @else if (editForm().username) {
+              <span class="field-hint">Only letters, numbers, dots, and underscores allowed</span>
+            }
+          </div>
+          
+          <div class="form-group">
+            <label>Full Name</label>
+            <input 
+              type="text" 
+              [(ngModel)]="editForm().fullName"
+              placeholder="Enter your full name"
+              [disabled]="editLoading()">
+          </div>
+
+          <div class="form-group">
+            <label>Bio</label>
+            <textarea 
+              [(ngModel)]="editForm().bio"
+              placeholder="Tell us about yourself"
+              rows="4"
+              [disabled]="editLoading()"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="edit-modal-footer">
+        <button class="btn-secondary" (click)="closeEditModal()" [disabled]="editLoading()">
+          Cancel
+        </button>
+        <button class="btn-primary" (click)="saveProfile()" [disabled]="editLoading()">
+          {{ editLoading() ? 'Saving...' : 'Save' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

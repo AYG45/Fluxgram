@@ -1,0 +1,55 @@
+<div class="story-viewer">
+  @if (storyGroup() && getCurrentStory()) {
+    <div class="story-container">
+      <!-- Progress bars -->
+      <div class="progress-bars">
+        @for (story of storyGroup()!.stories; track story.id; let i = $index) {
+          <div class="progress-bar-container">
+            <div 
+              class="progress-bar" 
+              [style.width]="i < currentStoryIndex() ? '100%' : (i === currentStoryIndex() ? progress() + '%' : '0%')"
+            ></div>
+          </div>
+        }
+      </div>
+
+      <!-- Header -->
+      <div class="story-header">
+        <div class="user-info">
+          <img [src]="storyGroup()!.userAvatar" [alt]="storyGroup()!.username" class="avatar">
+          <span class="username">{{ storyGroup()!.username }}</span>
+        </div>
+        <div class="header-actions">
+          @if (isOwnStory()) {
+            <button class="add-story-btn" (click)="openAddStory()" title="Add story">➕</button>
+            <button class="delete-btn" (click)="deleteCurrentStory()" title="Delete story">🗑️</button>
+            <input 
+              type="file" 
+              id="storyFileInput"
+              accept="image/*" 
+              multiple
+              (change)="onStoryFileSelected($event)" 
+              style="display: none"
+            >
+          }
+          <button class="close-btn" (click)="close()">✕</button>
+        </div>
+      </div>
+
+      <!-- Story image -->
+      <div class="story-content" (click)="onImageClick($event)">
+        <img [src]="getCurrentStory()!.image" alt="Story" class="story-image">
+      </div>
+
+      <!-- Navigation arrows (optional) -->
+      <div class="story-navigation">
+        @if (currentStoryIndex() > 0) {
+          <button class="nav-btn prev" (click)="previousStory()">‹</button>
+        }
+        @if (currentStoryIndex() < storyGroup()!.stories.length - 1) {
+          <button class="nav-btn next" (click)="nextStory()">›</button>
+        }
+      </div>
+    </div>
+  }
+</div>

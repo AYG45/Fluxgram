@@ -1,0 +1,218 @@
+.story-bar {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 28px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  gap: 20px;
+  scrollbar-width: none;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s;
+}
+
+.story-bar:hover {
+  border-color: var(--border-hover);
+}
+
+.story-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.story-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.story-item:hover {
+  transform: translateY(-4px);
+}
+
+.story-item:active {
+  transform: translateY(-2px) scale(0.95);
+}
+
+.story-avatar-wrapper {
+  position: relative;
+  padding: 3px;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  transition: all 0.3s;
+}
+
+.story-avatar-wrapper.has-story {
+  background: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: storyPulse 2s infinite;
+}
+
+@keyframes storyPulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.story-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 3px solid var(--bg-secondary);
+  display: block;
+}
+
+.story-item.seen .story-avatar-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+
+.add-story-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background: var(--text-primary);
+  border: 3px solid var(--bg-secondary);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg-primary);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s;
+}
+
+.story-item:hover .add-story-btn {
+  transform: scale(1.1) rotate(90deg);
+}
+
+.add-story-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.story-username {
+  font-size: 12px;
+  color: var(--text-primary);
+  max-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .story-bar {
+    padding: 18px;
+    gap: 18px;
+  }
+
+  .story-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .add-story-btn {
+    width: 22px;
+    height: 22px;
+  }
+
+  .add-story-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .story-username {
+    font-size: 11px;
+    max-width: 64px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .story-bar {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 0;
+    padding: 12px 16px;
+    gap: 12px;
+  }
+
+  .story-item {
+    gap: 6px;
+  }
+
+  .story-item:hover {
+    transform: none;
+  }
+
+  .story-avatar-wrapper {
+    padding: 2px;
+  }
+
+  .story-avatar {
+    width: 56px;
+    height: 56px;
+    border-width: 2px;
+  }
+
+  .add-story-btn {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+  }
+
+  .add-story-btn svg {
+    width: 9px;
+    height: 9px;
+  }
+
+  .story-username {
+    font-size: 11px;
+    max-width: 60px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .story-bar {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .story-avatar {
+    width: 52px;
+    height: 52px;
+  }
+
+  .add-story-btn {
+    width: 16px;
+    height: 16px;
+  }
+
+  .add-story-btn svg {
+    width: 9px;
+    height: 9px;
+  }
+
+  .story-username {
+    font-size: 10px;
+    max-width: 56px;
+  }
+}

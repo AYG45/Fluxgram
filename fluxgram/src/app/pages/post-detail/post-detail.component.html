@@ -1,0 +1,184 @@
+@if (post()) {
+  <div class="post-detail-overlay" (click)="closeModal()">
+    <!-- Blurred Background -->
+    <div class="blurred-background" [style.background-image]="'url(' + post().images[0] + ')'"></div>
+    
+    <button class="close-button" (click)="closeModal()">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+
+    <div class="post-detail-container" (click)="$event.stopPropagation()">
+      <!-- LEFT SIDE: Image -->
+      <div class="media-section" (dblclick)="onImageDoubleClick($event)">
+        <img [src]="post().images[0]" [alt]="post().caption">
+        
+        <!-- Double-click heart animation -->
+        <div class="heart-animation" #heartAnimation>
+          <svg viewBox="0 0 24 24" width="100" height="100" fill="white">
+            <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938Z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: Details -->
+      <div class="details-section" [style.background-image]="'url(' + post().images[0] + ')'">
+        <div class="details-overlay"></div>
+        <div class="details-content">
+        <!-- Top Section: User Info -->
+        <div class="user-header">
+          <a [routerLink]="['/profile', post().username]" class="user-profile">
+            <img [src]="post().userAvatar" [alt]="post().username">
+            <div class="user-info">
+              <span class="username">{{ post().username }}</span>
+              <span class="timestamp">{{ getTimeAgo(post().createdAt) }}</span>
+            </div>
+          </a>
+          <div class="header-actions">
+            <button class="more-options-button" title="More options">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <circle cx="12" cy="5" r="2"/>
+                <circle cx="12" cy="12" r="2"/>
+                <circle cx="12" cy="19" r="2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Caption Section -->
+        @if (post().caption) {
+          <div class="caption-section">
+            <p class="caption-text">{{ post().caption }}</p>
+          </div>
+        }
+
+        <!-- Comments Section -->
+        <div class="comments-container">
+          @if (comments().length === 0) {
+            <div class="no-comments">
+              <p>No comments yet.</p>
+              <p class="hint">Be the first to comment!</p>
+            </div>
+          } @else {
+            @for (comment of comments(); track comment.id) {
+              <div class="comment-item">
+                <a [routerLink]="['/profile', comment.user.username]" class="comment-avatar">
+                  <img [src]="comment.user.avatar" [alt]="comment.user.username">
+                </a>
+                <div class="comment-body">
+                  <div class="comment-header">
+                    <a [routerLink]="['/profile', comment.user.username]" class="comment-username">{{ comment.user.username }}</a>
+                    <span class="comment-time">{{ getTimeAgo(comment.createdAt) }}</span>
+                  </div>
+                  <p class="comment-text">{{ comment.text }}</p>
+                </div>
+                @if (comment.user.username === currentUser()?.username) {
+                  <button class="delete-comment-btn" (click)="deleteComment(comment.id)" title="Delete comment">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"/>
+                      <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                }
+              </div>
+            }
+          }
+        </div>
+
+        <!-- Bottom Section: Comment Input -->
+        <div class="comment-input-section">
+          <input 
+            type="text" 
+            placeholder="Add a comment..."
+            [(ngModel)]="commentText"
+            (keyup.enter)="submitComment()"
+            class="comment-input"
+            #commentInput>
+          <button 
+            class="emoji-button"
+            type="button"
+            (click)="toggleEmojiPicker()"
+            title="Add emoji">
+            😊
+          </button>
+          <button 
+            class="post-button" 
+            (click)="submitComment()" 
+            [disabled]="!commentText.trim()">
+            Post
+          </button>
+          
+          <!-- Emoji Picker -->
+          @if (showEmojiPicker) {
+            <div class="emoji-picker" (click)="$event.stopPropagation()">
+              <div class="emoji-picker-header">
+                <span>Emojis</span>
+                <button class="emoji-close" (click)="toggleEmojiPicker()">✕</button>
+              </div>
+              <div class="emoji-grid">
+                @for (emoji of emojis; track emoji) {
+                  <button 
+                    class="emoji-item" 
+                    (click)="addEmoji(emoji)"
+                    type="button">
+                    {{ emoji }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Interaction Section -->
+        <div class="interaction-section">
+          <div class="action-buttons">
+            <button class="action-btn" (click)="toggleLike()" [class.liked]="post().isLiked" title="Like">
+              @if (post().isLiked) {
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="#ed4956">
+                  <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938Z"/>
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938Z"/>
+                </svg>
+              }
+            </button>
+            <span class="likes-count">{{ formatLikes(post().likes) }}</span>
+            <div class="action-separator"></div>
+            <button class="action-btn" (click)="downloadPost()" title="Download">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </button>
+            <div class="action-separator"></div>
+            <button class="action-btn" (click)="toggleSave()" title="Save">
+              @if (post().isSaved) {
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+                  <path d="M20 22a.999.999 0 0 1-.687-.273L12 14.815l-7.313 6.912A1 1 0 0 1 3 21V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1Z"/>
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21V3H4v18l8-6Z"/>
+                </svg>
+              }
+            </button>
+            @if (isOwnPost()) {
+              <button class="action-btn delete-action" (click)="deletePost()" title="Delete post">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  <line x1="10" y1="11" x2="10" y2="17"/>
+                  <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+              </button>
+            }
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

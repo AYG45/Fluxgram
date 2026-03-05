@@ -1,0 +1,293 @@
+.settings-container {
+  display: flex;
+  max-width: 935px;
+  margin: 0 auto;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  min-height: calc(100vh - 80px);
+  background: var(--bg-primary);
+}
+
+.settings-menu {
+  width: 236px;
+  border-right: 1px solid var(--border-color);
+}
+
+.settings-menu h2 {
+  padding: 24px 24px 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.settings-menu nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-menu nav button {
+  padding: 16px 24px;
+  background: none;
+  color: var(--text-primary);
+  text-align: left;
+  font-size: 16px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.settings-menu nav button:hover {
+  background: var(--bg-secondary);
+}
+
+.settings-menu nav button.active {
+  font-weight: 600;
+  border-left-color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.settings-content {
+  flex: 1;
+  padding: 32px 48px;
+}
+
+.avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.avatar-section .avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+
+.avatar-section .avatar-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.avatar-section .username {
+  font-weight: 600;
+}
+
+.avatar-section .change-photo-btn {
+  background: none;
+  color: var(--accent-color);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  text-align: left;
+}
+
+.profile-form,
+.password-form {
+  max-width: 400px;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--text-secondary);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group .help-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
+.form-group .char-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: right;
+  margin-top: 4px;
+}
+
+.forgot-link {
+  display: block;
+  margin-top: 16px;
+  color: var(--accent-color);
+  font-size: 14px;
+}
+
+.privacy-settings h3,
+.notification-settings h3,
+.help-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.setting-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 0;
+}
+
+.setting-item .setting-info {
+  flex: 1;
+}
+
+.setting-item .setting-info .setting-label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.setting-item .setting-info p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle .slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--bg-tertiary);
+  border-radius: 24px;
+  transition: 0.3s;
+}
+
+.toggle .slider::before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.toggle input:checked + .slider {
+  background: var(--accent-color);
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(20px);
+}
+
+.setting-group {
+  margin-bottom: 24px;
+}
+
+.setting-group h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.radio-group label input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-color);
+}
+
+.help-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.help-links a {
+  color: var(--accent-color);
+  font-size: 14px;
+}
+
+.help-section p {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+@media (max-width: 735px) {
+  .settings-container {
+    flex-direction: column;
+    border: none;
+  }
+
+  .settings-menu {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .settings-menu nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  .settings-menu nav button {
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+  }
+
+  .settings-menu nav button.active {
+    border-bottom-color: var(--text-primary);
+  }
+
+  .settings-content {
+    padding: 24px 16px;
+  }
+}

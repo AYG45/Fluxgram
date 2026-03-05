@@ -1,0 +1,199 @@
+<div class="settings-container">
+  <aside class="settings-menu">
+    <h2>Settings</h2>
+    <nav>
+      @for (item of menuItems; track item.id) {
+        <button 
+          [class.active]="activeSection() === item.id"
+          (click)="setSection(item.id)">
+          {{ item.label }}
+        </button>
+      }
+    </nav>
+  </aside>
+
+  <main class="settings-content">
+    @if (activeSection() === 'edit') {
+      <div class="edit-profile">
+        <div class="avatar-section">
+          <img [src]="profile.avatar" alt="Profile" class="avatar">
+          <div class="avatar-info">
+            <span class="username">{{ profile.username }}</span>
+            <button class="change-photo-btn">Change profile photo</button>
+          </div>
+        </div>
+
+        <form class="profile-form">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="profile.name" name="name">
+            <p class="help-text">Help people discover your account by using the name you're known by.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" [(ngModel)]="profile.username" name="username">
+          </div>
+
+          <div class="form-group">
+            <label>Website</label>
+            <input type="text" [(ngModel)]="profile.website" name="website">
+          </div>
+
+          <div class="form-group">
+            <label>Bio</label>
+            <textarea [(ngModel)]="profile.bio" name="bio" rows="3"></textarea>
+            <p class="char-count">{{ profile.bio.length }} / 150</p>
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="profile.email" name="email">
+          </div>
+
+          <div class="form-group">
+            <label>Phone number</label>
+            <input type="tel" [(ngModel)]="profile.phone" name="phone" placeholder="Phone number">
+          </div>
+
+          <div class="form-group">
+            <label>Gender</label>
+            <select [(ngModel)]="profile.gender" name="gender">
+              <option>Male</option>
+              <option>Female</option>
+              <option>Custom</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-primary">Submit</button>
+        </form>
+      </div>
+    }
+
+    @if (activeSection() === 'password') {
+      <div class="change-password">
+        <div class="avatar-section">
+          <img [src]="profile.avatar" alt="Profile" class="avatar">
+          <span class="username">{{ profile.username }}</span>
+        </div>
+
+        <form class="password-form">
+          <div class="form-group">
+            <label>Old password</label>
+            <input type="password" name="oldPassword">
+          </div>
+
+          <div class="form-group">
+            <label>New password</label>
+            <input type="password" name="newPassword">
+          </div>
+
+          <div class="form-group">
+            <label>Confirm new password</label>
+            <input type="password" name="confirmPassword">
+          </div>
+
+          <button type="submit" class="btn-primary">Change password</button>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </form>
+      </div>
+    }
+
+    @if (activeSection() === 'privacy') {
+      <div class="privacy-settings">
+        <h3>Account Privacy</h3>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Private account</span>
+            <p>When your account is private, only people you approve can see your photos and videos.</p>
+          </div>
+          <label class="toggle">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <h3>Activity Status</h3>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Show activity status</span>
+            <p>Allow accounts you follow and anyone you message to see when you were last active.</p>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <h3>Story Sharing</h3>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-label">Allow sharing</span>
+            <p>Let people share your story as messages.</p>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    }
+
+    @if (activeSection() === 'notifications') {
+      <div class="notification-settings">
+        <h3>Push Notifications</h3>
+        
+        <div class="setting-group">
+          <h4>Likes</h4>
+          <div class="radio-group">
+            <label><input type="radio" name="likes" checked> Off</label>
+            <label><input type="radio" name="likes"> From people I follow</label>
+            <label><input type="radio" name="likes"> From everyone</label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h4>Comments</h4>
+          <div class="radio-group">
+            <label><input type="radio" name="comments"> Off</label>
+            <label><input type="radio" name="comments" checked> From people I follow</label>
+            <label><input type="radio" name="comments"> From everyone</label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h4>New followers</h4>
+          <div class="radio-group">
+            <label><input type="radio" name="followers"> Off</label>
+            <label><input type="radio" name="followers" checked> On</label>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h4>Direct messages</h4>
+          <div class="radio-group">
+            <label><input type="radio" name="messages"> Off</label>
+            <label><input type="radio" name="messages" checked> On</label>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (activeSection() === 'help') {
+      <div class="help-section">
+        <h3>Help Center</h3>
+        <div class="help-links">
+          <a href="#">Using Fluxgram</a>
+          <a href="#">Managing Your Account</a>
+          <a href="#">Privacy and Safety Center</a>
+          <a href="#">Report Something</a>
+        </div>
+
+        <h3>Support Requests</h3>
+        <p>If you have a question or need help, you can submit a support request.</p>
+        <button class="btn-secondary">Submit a request</button>
+      </div>
+    }
+  </main>
+</div>

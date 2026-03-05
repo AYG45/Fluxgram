@@ -257,7 +257,7 @@ padding:16px 20px;
 min-height:0;
 }
 
-/* comment wrapper */
+/* comment row */
 
 .comment-item{
 display:flex;
@@ -265,10 +265,14 @@ gap:10px;
 margin-bottom:12px;
 position:relative;
 align-items:flex-start;
-padding-right:28px; /* space for delete button */
+padding-right:32px; /* space for delete button */
 }
 
 /* avatar */
+
+.comment-avatar{
+flex-shrink:0;
+}
 
 .comment-avatar img{
 width:32px;
@@ -283,9 +287,11 @@ border:2px solid rgba(255,255,255,.15);
 .comment-body{
 flex:1;
 min-width:0;
+display:flex;
+flex-direction:column;
 }
 
-/* username + time row */
+/* username + time */
 
 .comment-header{
 display:flex;
@@ -293,6 +299,7 @@ align-items:center;
 gap:6px;
 margin:0;
 line-height:1;
+flex-wrap:nowrap;
 }
 
 /* username */
@@ -319,8 +326,8 @@ line-height:1;
 .comment-text{
 font-size:13px;
 color:rgba(255,255,255,.9);
-margin:2px 0 0 0;
-line-height:1.3;
+margin-top:3px;
+line-height:1.35;
 word-break:break-word;
 }
 
@@ -331,7 +338,7 @@ DELETE BUTTON
 .delete-comment-btn{
 position:absolute;
 right:0;
-top:0;
+top:2px;
 
 background:transparent;
 border:none;

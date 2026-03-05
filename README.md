@@ -186,7 +186,3 @@ MIT License - see LICENSE file for details
 For issues and questions:
 - Open an issue on GitHub
 - Check [DEPLOYMENT.md](DEPLOYMENT.md) for troubleshooting
-
----
-
-Made with ❤️ by [Your Name]

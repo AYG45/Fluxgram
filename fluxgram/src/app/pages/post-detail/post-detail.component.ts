@@ -202,12 +202,14 @@ export class PostDetailComponent implements OnInit {
 
     try {
       const imageUrl = currentPost.images[0];
-      // Use direct download without fetch to avoid CORS issues
+      // Add download=true query parameter to trigger Content-Disposition header
+      const downloadUrl = imageUrl.includes('?') 
+        ? `${imageUrl}&download=true` 
+        : `${imageUrl}?download=true`;
+      
       const link = document.createElement('a');
-      link.href = imageUrl;
+      link.href = downloadUrl;
       link.download = `fluxgram-${currentPost.id}.jpg`;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

@@ -32,6 +32,11 @@ router.get('/:folder/:filename', async (req, res) => {
       'webp': 'image/webp'
     };
 
+    // Check if download is requested
+    if (req.query.download === 'true') {
+      res.set('Content-Disposition', `attachment; filename="${filename}"`);
+    }
+    
     res.set('Content-Type', contentTypes[ext] || 'image/jpeg');
     res.set('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
     res.send(response.data);

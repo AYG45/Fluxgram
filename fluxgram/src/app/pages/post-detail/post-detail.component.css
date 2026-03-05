@@ -261,8 +261,8 @@ min-height:0;
 
 .comment-item{
 display:flex;
-gap:10px;
-margin-bottom:12px;
+gap:12px;
+margin-bottom:16px;
 position:relative;
 align-items:flex-start;
 padding-right:32px; /* space for delete button */
@@ -289,16 +289,16 @@ flex:1;
 min-width:0;
 display:flex;
 flex-direction:column;
+gap:4px;
 }
 
 /* username + time */
 
 .comment-header{
 display:flex;
-align-items:center;
-gap:6px;
+align-items:baseline;
+gap:8px;
 margin:0;
-line-height:1;
 flex-wrap:nowrap;
 }
 
@@ -306,28 +306,28 @@ flex-wrap:nowrap;
 
 .comment-username{
 font-weight:600;
-font-size:13px;
+font-size:14px;
 color:white;
 text-decoration:none;
-line-height:1;
+flex-shrink:0;
 }
 
 /* time */
 
 .comment-time{
-font-size:11px;
-color:rgba(255,255,255,.45);
+font-size:12px;
+color:rgba(255,255,255,.5);
 white-space:nowrap;
-line-height:1;
+flex-shrink:0;
 }
 
 /* comment text */
 
 .comment-text{
-font-size:13px;
-color:rgba(255,255,255,.9);
-margin-top:3px;
-line-height:1.35;
+font-size:14px;
+color:rgba(255,255,255,.85);
+margin:0;
+line-height:1.4;
 word-break:break-word;
 }
 

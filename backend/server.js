@@ -83,7 +83,11 @@ app.use('/api/media', require('./routes/media.routes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Fluxgram API is running' });
+  res.json({ 
+    status: 'OK', 
+    message: 'Fluxgram API is running',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Error handling middleware

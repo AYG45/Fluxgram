@@ -353,7 +353,7 @@
   color: #262626;
   line-height: 1.3;
   margin: 0;
-  margin-top: 2px;
+  margin-top: 0;
   word-wrap: break-word;
 }
 
@@ -822,8 +822,8 @@
 
   .comment-text {
     word-break: break-word;
-    margin-top: 2px !important;
-    line-height: 1.3 !important;
+    margin-top: 0 !important;
+    line-height: 1.2 !important;
   }
 
   .comment-username {
@@ -934,7 +934,7 @@
   }
 
   .comment-text {
-    margin-top: 2px !important;
+    margin-top: 0 !important;
     line-height: 1.2 !important;
   }
 

@@ -139,11 +139,28 @@ export class ProfileComponent implements OnInit {
     const userId = this.user()?.id;
     if (!userId) return;
 
+    // Optimistically update UI
+    const currentFollowState = this.user()?.isFollowing || false;
+    const currentFollowers = this.user()?.followers || 0;
+    
+    this.user.update(u => u ? { 
+      ...u, 
+      isFollowing: !currentFollowState,
+      followers: currentFollowState ? currentFollowers - 1 : currentFollowers + 1
+    } : u);
+
     try {
       const result = await this.userService.toggleFollow(userId);
+      // Update with actual server response
       this.user.update(u => u ? { ...u, isFollowing: result.isFollowing, followers: result.followers } : u);
     } catch (error) {
       console.error('Failed to toggle follow:', error);
+      // Revert on error
+      this.user.update(u => u ? { 
+        ...u, 
+        isFollowing: currentFollowState,
+        followers: currentFollowers
+      } : u);
     }
   }
 

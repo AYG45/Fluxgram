@@ -24,6 +24,11 @@ const notificationSchema = new mongoose.Schema({
   read: {
     type: Boolean,
     default: false
+  },
+  expiresAt: {
+    type: Date,
+    default: () => new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
+    index: { expires: 0 } // TTL index - MongoDB will auto-delete when expiresAt is reached
   }
 }, {
   timestamps: true

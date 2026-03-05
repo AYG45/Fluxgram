@@ -1,6 +1,6 @@
-/* =========================================
+/* ================================
 POST DETAIL OVERLAY
-========================================= */
+================================ */
 
 .post-detail-overlay{
 position:fixed;
@@ -21,95 +21,81 @@ from{opacity:0}
 to{opacity:1}
 }
 
-/* =========================================
-CINEMATIC BACKGROUND
-========================================= */
+/* ================================
+BACKGROUND FLOW
+================================ */
 
 .blurred-background{
 position:absolute;
 inset:-30%;
 background-size:cover;
 background-position:center;
-filter:blur(140px) brightness(.55) contrast(1.15);
+filter:blur(120px) brightness(.6);
 transform:scale(1.4);
-opacity:.9;
+opacity:.8;
 z-index:-1;
 }
 
-/* =========================================
+/* ================================
 CLOSE BUTTON
-========================================= */
+================================ */
 
 .close-button{
+display:none;
 position:absolute;
 top:20px;
 right:20px;
-
 width:40px;
 height:40px;
-
-display:flex;
 align-items:center;
 justify-content:center;
-
 border-radius:50%;
 border:1px solid rgba(255,255,255,.1);
-
 background:rgba(0,0,0,.45);
 backdrop-filter:blur(12px);
-
 cursor:pointer;
-transition:all .2s ease;
 z-index:1001;
 }
 
-.close-button:hover{
-background:rgba(255,255,255,.1);
-}
-
-/* =========================================
+/* ================================
 MODAL CONTAINER
-========================================= */
+================================ */
 
 .post-detail-container{
 
 display:grid;
 grid-template-columns:minmax(0,1fr) 420px;
 
-width:min(1500px,95vw);
+width:min(1400px,95vw);
 height:min(900px,90vh);
 
-border-radius:18px;
+border-radius:16px;
 overflow:hidden;
 
 background:rgba(0,0,0,.35);
 
-backdrop-filter:blur(40px) saturate(160%);
--webkit-backdrop-filter:blur(40px) saturate(160%);
-
+backdrop-filter:blur(40px);
 border:1px solid rgba(255,255,255,.08);
 
-box-shadow:
-0 40px 100px rgba(0,0,0,.65),
-inset 0 0 0 1px rgba(255,255,255,.04);
+box-shadow:0 40px 100px rgba(0,0,0,.6);
 
-animation:modalReveal .35s cubic-bezier(.2,.8,.2,1);
+animation:modalReveal .3s ease;
 }
 
 @keyframes modalReveal{
 from{
-transform:scale(.95) translateY(20px);
+transform:scale(.96);
 opacity:0
 }
 to{
-transform:scale(1) translateY(0);
+transform:scale(1);
 opacity:1
 }
 }
 
-/* =========================================
-MEDIA SECTION
-========================================= */
+/* ================================
+MEDIA
+================================ */
 
 .media-section{
 position:relative;
@@ -118,22 +104,17 @@ display:flex;
 align-items:center;
 justify-content:center;
 overflow:hidden;
-user-select:none;
 }
 
 .media-section img{
 width:100%;
 height:100%;
 object-fit:contain;
-max-height:90vh;
-
-filter:
-contrast(1.05)
-brightness(.95)
-saturate(.9);
 }
 
-/* HEART ANIMATION */
+/* ================================
+HEART ANIMATION
+================================ */
 
 .heart-animation{
 position:absolute;
@@ -142,7 +123,7 @@ left:50%;
 transform:translate(-50%,-50%) scale(0);
 opacity:0;
 pointer-events:none;
-transition:all .4s cubic-bezier(.175,.885,.32,1.275);
+transition:.4s;
 }
 
 .heart-animation.active{
@@ -153,26 +134,17 @@ animation:heartPulse .6s ease;
 
 @keyframes heartPulse{
 
-0%{
-transform:translate(-50%,-50%) scale(0);
-opacity:0;
-}
+0%{transform:translate(-50%,-50%) scale(0);opacity:0}
 
-50%{
-transform:translate(-50%,-50%) scale(1.3);
-opacity:1;
-}
+50%{transform:translate(-50%,-50%) scale(1.3);opacity:1}
 
-100%{
-transform:translate(-50%,-50%) scale(0);
-opacity:0;
-}
+100%{transform:translate(-50%,-50%) scale(0);opacity:0}
 
 }
 
-/* =========================================
+/* ================================
 DETAILS PANEL
-========================================= */
+================================ */
 
 .details-section{
 position:relative;
@@ -181,20 +153,19 @@ flex-direction:column;
 background-size:cover;
 background-position:center;
 height:100%;
+min-height:0;
 overflow:hidden;
 }
 
 .details-overlay{
 position:absolute;
 inset:0;
-
 background:linear-gradient(
 to bottom,
 rgba(0,0,0,.55),
 rgba(0,0,0,.85)
 );
-
-backdrop-filter:blur(50px) saturate(160%);
+backdrop-filter:blur(40px);
 }
 
 .details-content{
@@ -203,11 +174,12 @@ z-index:1;
 display:flex;
 flex-direction:column;
 height:100%;
+min-height:0;
 }
 
-/* =========================================
-USER HEADER
-========================================= */
+/* ================================
+HEADER
+================================ */
 
 .user-header{
 display:flex;
@@ -241,7 +213,7 @@ flex-direction:column;
 .username{
 font-weight:600;
 font-size:14px;
-color:rgba(255,255,255,.95);
+color:white;
 }
 
 .timestamp{
@@ -255,12 +227,12 @@ border:none;
 cursor:pointer;
 padding:8px;
 border-radius:50%;
-color:rgba(255,255,255,.9);
+color:white;
 }
 
-/* =========================================
+/* ================================
 CAPTION
-========================================= */
+================================ */
 
 .caption-section{
 padding:16px 20px;
@@ -269,20 +241,20 @@ border-bottom:1px solid rgba(255,255,255,.08);
 
 .caption-text{
 font-size:14px;
-color:rgba(255,255,255,.92);
+color:rgba(255,255,255,.9);
 line-height:1.6;
 margin:0;
-white-space:pre-wrap;
 }
 
-/* =========================================
+/* ================================
 COMMENTS
-========================================= */
+================================ */
 
 .comments-container{
 flex:1;
 overflow-y:auto;
 padding:16px 20px;
+min-height:0;
 }
 
 .comment-item{
@@ -298,6 +270,13 @@ height:32px;
 border-radius:50%;
 object-fit:cover;
 border:2px solid rgba(255,255,255,.15);
+}
+
+.comment-header{
+display:flex;
+align-items:center;
+gap:6px;
+margin-bottom:2px;
 }
 
 .comment-username{
@@ -318,9 +297,36 @@ color:rgba(255,255,255,.9);
 margin-top:2px;
 }
 
-/* =========================================
+/* DELETE COMMENT BUTTON */
+
+.delete-comment-btn{
+position:absolute;
+right:0;
+top:2px;
+
+background:transparent;
+border:none;
+cursor:pointer;
+padding:4px;
+
+border-radius:50%;
+color:rgba(255,255,255,.6);
+
+opacity:0;
+transition:.2s;
+}
+
+.comment-item:hover .delete-comment-btn{
+opacity:1;
+}
+
+.delete-comment-btn:hover{
+background:rgba(255,255,255,.1);
+}
+
+/* ================================
 INTERACTION
-========================================= */
+================================ */
 
 .interaction-section{
 padding:12px 20px;
@@ -338,25 +344,15 @@ background:transparent;
 border:none;
 cursor:pointer;
 padding:6px;
-
 display:flex;
 align-items:center;
 justify-content:center;
-
-color:rgba(255,255,255,.85);
-
-transition:
-transform .2s ease,
-filter .2s ease;
-}
-
-.action-btn svg{
-stroke:rgba(255,255,255,.9);
+color:white;
+transition:.2s;
 }
 
 .action-btn:hover{
-transform:scale(1.15);
-filter:brightness(1.3);
+transform:scale(1.1);
 }
 
 .likes-count{
@@ -368,13 +364,13 @@ margin:0 6px;
 .action-separator{
 width:1px;
 height:20px;
-background:rgba(255,255,255,.15);
+background:rgba(255,255,255,.2);
 margin:0 6px;
 }
 
-/* =========================================
+/* ================================
 COMMENT INPUT
-========================================= */
+================================ */
 
 .comment-input-section{
 display:flex;
@@ -382,31 +378,20 @@ align-items:center;
 gap:8px;
 padding:16px 20px;
 border-top:1px solid rgba(255,255,255,.08);
+flex-shrink:0;
 }
 
 .comment-input{
 flex:1;
-
 border-radius:20px;
 padding:10px 14px;
-
 background:rgba(255,255,255,.06);
 border:1px solid rgba(255,255,255,.12);
-
 color:white;
-
-backdrop-filter:blur(12px);
-
-transition:all .2s ease;
-}
-
-.comment-input:focus{
-background:rgba(255,255,255,.1);
-border-color:rgba(255,255,255,.25);
 }
 
 .comment-input::placeholder{
-color:rgba(255,255,255,.4);
+color:rgba(255,255,255,.45);
 }
 
 .emoji-button{
@@ -422,12 +407,11 @@ border:none;
 color:#4da3ff;
 font-weight:600;
 cursor:pointer;
-padding:6px 10px;
 }
 
-/* =========================================
+/* ================================
 EMOJI PICKER
-========================================= */
+================================ */
 
 .emoji-picker{
 position:absolute;
@@ -438,8 +422,6 @@ right:20px;
 background:rgba(0,0,0,.9);
 border:1px solid rgba(255,255,255,.1);
 border-radius:12px;
-
-backdrop-filter:blur(20px);
 
 max-height:300px;
 display:flex;
@@ -461,22 +443,25 @@ cursor:pointer;
 font-size:22px;
 padding:6px;
 border-radius:6px;
-transition:.2s;
 }
 
 .emoji-item:hover{
 background:rgba(255,255,255,.1);
 }
 
-/* =========================================
-MOBILE RESPONSIVE
-========================================= */
+/* ================================
+MOBILE
+================================ */
 
 @media(max-width:900px){
 
 .post-detail-overlay{
 padding:0;
 padding-left:0;
+}
+
+.close-button{
+display:flex;
 }
 
 .post-detail-container{
@@ -497,23 +482,18 @@ height:40vh;
 height:60vh;
 }
 
-.close-button{
-top:12px;
-right:12px;
+.comment-input-section{
+padding:12px 16px;
+padding-bottom:80px;
 }
 
 }
 
-/* =========================================
+/* ================================
 SMALL MOBILE
-========================================= */
+================================ */
 
 @media(max-width:480px){
-
-.user-profile img{
-width:32px;
-height:32px;
-}
 
 .username{
 font-size:13px;
@@ -524,33 +504,12 @@ width:26px;
 height:26px;
 }
 
-.caption-text{
-font-size:13px;
-}
-
 .comment-text{
 font-size:12px;
 }
 
-}
-
-/* =========================================
-LANDSCAPE MOBILE
-========================================= */
-
-@media(max-width:768px) and (orientation:landscape){
-
-.post-detail-container{
-grid-template-columns:1fr 1fr;
-grid-template-rows:1fr;
-}
-
-.media-section{
-height:100vh;
-}
-
-.details-section{
-height:100vh;
+.caption-text{
+font-size:13px;
 }
 
 }

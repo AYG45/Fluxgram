@@ -382,7 +382,7 @@
   cursor: pointer;
   padding: 4px;
   transition: transform 0.2s;
-  color: #fff;
+  color: #262626;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -400,27 +400,18 @@
   height: 24px;
 }
 
-.action-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  transition: transform 0.2s;
-  color: #fff;
-}
-
 .action-btn svg {
   display: block;
-  stroke: #fff;
+  stroke: #262626;
 }
 
 .action-btn svg[fill="currentColor"] {
-  fill: #fff;
+  fill: #262626;
   stroke: none;
 }
 
 .action-btn svg[fill="none"] {
-  stroke: #fff;
+  stroke: #262626;
 }
 
 .action-btn:hover {
@@ -482,7 +473,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 22px;
+  font-size: 24px;
   padding: 8px;
   line-height: 1;
   transition: transform 0.2s;
@@ -856,6 +847,11 @@
     padding: 10px 14px;
   }
 
+  .emoji-button {
+    font-size: 26px;
+    padding: 8px;
+  }
+
   .emoji-picker {
     left: 16px;
     right: 16px;
@@ -867,6 +863,11 @@
 
   .action-btn {
     padding: 6px;
+  }
+
+  .action-btn svg {
+    width: 26px;
+    height: 26px;
   }
 }
 
@@ -984,8 +985,17 @@
     padding: 9px 12px;
   }
 
+  .emoji-button {
+    font-size: 28px;
+    padding: 8px;
+  }
+
   .post-button,
   .emoji-button {
+    font-size: 13px;
+  }
+
+  .post-button {
     font-size: 13px;
   }
 }

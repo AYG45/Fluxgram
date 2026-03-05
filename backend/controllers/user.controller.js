@@ -12,8 +12,8 @@ exports.getProfile = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const isFollowing = req.userId ? user.followers.includes(req.userId) : false;
-    const followsYou = req.userId ? user.following.includes(req.userId) : false;
+    const isFollowing = req.userId ? user.followers.some(id => id.toString() === req.userId) : false;
+    const followsYou = req.userId ? user.following.some(id => id.toString() === req.userId) : false;
 
     // Get post count without loading all posts
     const Post = require('../models/post.model');
@@ -143,7 +143,9 @@ exports.toggleFollow = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const isFollowing = currentUser.following.includes(userToFollow._id);
+    const isFollowing = currentUser.following.some(
+      id => id.toString() === userToFollow._id.toString()
+    );
 
     if (isFollowing) {
       currentUser.following = currentUser.following.filter(

@@ -413,6 +413,7 @@ gap:8px;
 padding:16px 20px;
 border-top:1px solid rgba(255,255,255,.08);
 flex-shrink:0;
+position:relative;
 }
 
 .comment-input{
@@ -452,6 +453,7 @@ position:absolute;
 bottom:100%;
 left:20px;
 right:20px;
+margin-bottom:8px;
 
 background:rgba(0,0,0,.9);
 border:1px solid rgba(255,255,255,.1);
@@ -460,6 +462,33 @@ border-radius:12px;
 max-height:300px;
 display:flex;
 flex-direction:column;
+z-index:10;
+}
+
+.emoji-picker-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 16px;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.emoji-picker-header span{
+font-weight:600;
+color:white;
+}
+
+.emoji-close{
+background:transparent;
+border:none;
+color:rgba(255,255,255,.6);
+font-size:20px;
+cursor:pointer;
+padding:4px 8px;
+}
+
+.emoji-close:hover{
+color:white;
 }
 
 .emoji-grid{

@@ -269,7 +269,8 @@ export class PostDetailComponent implements OnInit {
 
   addEmoji(emoji: string) {
     this.commentText += emoji;
-    this.showEmojiPicker = false;
+    // Keep emoji picker open so users can add multiple emojis
+    // this.showEmojiPicker = false;
     // Focus back on input
     setTimeout(() => {
       if (this.commentInput) {

@@ -373,6 +373,7 @@ border-top:1px solid rgba(255,255,255,.08);
 display:flex;
 align-items:center;
 gap:6px;
+position:relative;
 }
 
 .action-btn{
@@ -389,6 +390,11 @@ transition:.2s;
 
 .action-btn:hover{
 transform:scale(1.1);
+}
+
+.delete-action{
+position:absolute;
+right:0;
 }
 
 .likes-count{

@@ -56,11 +56,17 @@ setInterval(async () => {
   }
 }, 10000); // Run every 10 seconds
 
-// Middleware
+// Middleware - CORS must be configured properly for Vercel
 app.use(cors({
-  origin: ['https://fluxgram-wtqp.vercel.app', 'https://fluxgram.vercel.app', 'http://localhost:4200'],
-  credentials: true
+  origin: ['https://fluxgram-wtqp.vercel.app', 'https://fluxgram.vercel.app', 'https://fluxgram.adityadev.lol', 'http://localhost:4200'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -382,7 +382,7 @@
   cursor: pointer;
   padding: 4px;
   transition: transform 0.2s;
-  color: #262626;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -406,21 +406,21 @@
   cursor: pointer;
   padding: 4px;
   transition: transform 0.2s;
-  color: #262626;
+  color: #fff;
 }
 
 .action-btn svg {
   display: block;
-  stroke: #262626;
+  stroke: #fff;
 }
 
 .action-btn svg[fill="currentColor"] {
-  fill: #262626;
+  fill: #fff;
   stroke: none;
 }
 
 .action-btn svg[fill="none"] {
-  stroke: #262626;
+  stroke: #fff;
 }
 
 .action-btn:hover {
@@ -482,8 +482,8 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 28px;
-  padding: 8px 12px;
+  font-size: 22px;
+  padding: 8px;
   line-height: 1;
   transition: transform 0.2s;
   flex-shrink: 0;

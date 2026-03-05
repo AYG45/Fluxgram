@@ -1,5 +1,6 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-connection-status',
@@ -65,7 +66,7 @@ export class ConnectionStatusComponent implements OnInit {
 
   async checkConnection() {
     try {
-      const response = await fetch('http://localhost:3000/api/health');
+      const response = await fetch(`${environment.apiUrl.replace('/api', '')}/api/health`);
       this.connected.set(response.ok);
     } catch (error) {
       this.connected.set(false);

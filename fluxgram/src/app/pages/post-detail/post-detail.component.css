@@ -326,7 +326,7 @@
   gap: 6px;
   margin-bottom: 0;
   flex-wrap: wrap;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .comment-username {

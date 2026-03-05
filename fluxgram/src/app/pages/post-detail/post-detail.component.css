@@ -841,6 +841,7 @@
 
   .comment-input-section {
     padding: 12px 16px;
+    padding-bottom: 80px; /* Add space for bottom navigation */
     flex-shrink: 0;
   }
 
@@ -951,6 +952,7 @@
 
   .comment-input-section {
     padding: 10px 12px;
+    padding-bottom: 80px; /* Add space for bottom navigation */
   }
 
   .user-profile img {

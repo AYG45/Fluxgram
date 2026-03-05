@@ -287,19 +287,13 @@ border:2px solid rgba(255,255,255,.15);
 .comment-body{
 flex:1;
 min-width:0;
-display:flex;
-flex-direction:column;
-gap:2px;
 }
 
-/* username + time */
+/* username + time + text combined */
 
 .comment-header{
-display:flex;
-align-items:baseline;
-gap:8px;
+display:inline;
 margin:0;
-flex-wrap:nowrap;
 }
 
 /* username */
@@ -309,7 +303,7 @@ font-weight:600;
 font-size:14px;
 color:white;
 text-decoration:none;
-flex-shrink:0;
+margin-right:6px;
 }
 
 /* time */
@@ -317,13 +311,13 @@ flex-shrink:0;
 .comment-time{
 font-size:12px;
 color:rgba(255,255,255,.5);
-white-space:nowrap;
-flex-shrink:0;
+margin-left:6px;
 }
 
 /* comment text */
 
 .comment-text{
+display:inline;
 font-size:14px;
 color:rgba(255,255,255,.85);
 margin:0;

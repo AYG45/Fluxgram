@@ -26,7 +26,9 @@ exports.createStory = async (req, res) => {
       return res.status(400).json({ error: 'Image is required' });
     }
 
-    const image = `${req.protocol}://${req.get('host')}/uploads/stories/${req.file.filename}`;
+    const githubStorage = require('../config/github');
+    const filename = `story-${Date.now()}-${Math.round(Math.random() * 1E9)}.${req.file.originalname.split('.').pop()}`;
+    const image = await githubStorage.uploadFile(req.file.buffer, filename, 'stories');
 
     // Stories expire after 10 minutes
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
@@ -38,20 +40,6 @@ exports.createStory = async (req, res) => {
     });
 
     await story.populate('user', 'username fullName avatar');
-
-    // Schedule manual deletion after 10 minutes (backup to TTL)
-    setTimeout(async () => {
-      try {
-        const storyToDelete = await Story.findById(story._id);
-        if (storyToDelete) {
-          deleteStoryFile(storyToDelete.image);
-          await Story.findByIdAndDelete(story._id);
-          console.log(`Story ${story._id} manually deleted after 10 minutes`);
-        }
-      } catch (error) {
-        console.error('Failed to manually delete story:', error);
-      }
-    }, 10 * 60 * 1000);
 
     res.status(201).json({
       message: 'Story created successfully',
@@ -171,8 +159,18 @@ exports.deleteStory = async (req, res) => {
       return res.status(403).json({ error: 'Not authorized' });
     }
 
-    // Delete the image file
-    deleteStoryFile(story.image);
+    // Delete from GitHub storage
+    try {
+      const urlParts = story.image.split('/');
+      const filename = urlParts[urlParts.length - 1];
+      const folder = urlParts[urlParts.length - 2];
+      const filepath = `uploads/${folder}/${filename}`;
+      
+      const githubStorage = require('../config/github');
+      await githubStorage.deleteFile(filepath);
+    } catch (deleteError) {
+      console.error('Failed to delete story from GitHub:', deleteError.message);
+    }
 
     await story.deleteOne();
 

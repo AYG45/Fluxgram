@@ -71,7 +71,7 @@
                     <a [routerLink]="['/profile', comment.user.username]" class="comment-username">{{ comment.user.username }}</a>
                     <span class="comment-time">{{ getTimeAgo(comment.createdAt) }}</span>
                   </div>
-                  <p class="comment-text">{{ comment.text }}</p>
+                  <span class="comment-text">{{ comment.text }}</span>
                 </div>
                 @if (comment.user.username === currentUser()?.username) {
                   <button class="delete-comment-btn" (click)="deleteComment(comment.id)" title="Delete comment">

@@ -10,11 +10,6 @@ router.get('/:folder/:filename', async (req, res) => {
     
     const filepath = `uploads/${folder}/${filename}`;
     
-    // Set CORS headers
-    res.set('Access-Control-Allow-Origin', '*');
-    res.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.set('Access-Control-Allow-Headers', 'Content-Type');
-    
     // Get file from GitHub
     const response = await axios.get(
       `https://api.github.com/repos/${githubStorage.owner}/${githubStorage.repo}/contents/${filepath}`,
@@ -44,14 +39,6 @@ router.get('/:folder/:filename', async (req, res) => {
     console.error('Media proxy error:', error.message);
     res.status(404).json({ error: 'Image not found' });
   }
-});
-
-// Handle OPTIONS preflight
-router.options('/:folder/:filename', (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.set('Access-Control-Allow-Headers', 'Content-Type');
-  res.sendStatus(204);
 });
 
 module.exports = router;

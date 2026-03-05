@@ -277,7 +277,7 @@
 .comment-item {
   display: flex;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   position: relative;
 }
 
@@ -926,7 +926,7 @@
 
   .comment-item {
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
 
   .comment-header {

@@ -758,20 +758,20 @@
   }
 
   .media-section {
-    max-height: 40vh;
-    min-height: 40vh;
-    height: 40vh;
+    max-height: 35vh;
+    min-height: 35vh;
+    height: 35vh;
   }
 
   .media-section img {
-    max-height: 40vh;
+    max-height: 35vh;
     width: 100%;
     object-fit: contain;
   }
 
   .details-section {
-    height: 60vh;
-    max-height: 60vh;
+    height: 65vh;
+    max-height: 65vh;
     min-height: 0;
     overflow: hidden;
   }
@@ -783,19 +783,19 @@
   }
 
   .user-header {
-    padding: 12px 16px;
+    padding: 10px 16px;
     flex-shrink: 0;
   }
 
   .caption-section {
-    padding: 12px 16px;
+    padding: 10px 16px;
     flex-shrink: 0;
-    max-height: 80px;
+    max-height: 60px;
     overflow-y: auto;
   }
 
   .comments-container {
-    padding: 12px 16px;
+    padding: 10px 16px;
     flex: 1;
     min-height: 0;
     overflow-y: auto;
@@ -803,7 +803,7 @@
 
   .comment-item {
     gap: 10px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .comment-header {
@@ -835,12 +835,12 @@
   }
 
   .interaction-section {
-    padding: 10px 16px;
+    padding: 8px 16px;
     flex-shrink: 0;
   }
 
   .comment-input-section {
-    padding: 12px 16px;
+    padding: 10px 16px;
     padding-bottom: 80px; /* Add space for bottom navigation */
     flex-shrink: 0;
   }
@@ -897,36 +897,36 @@
   }
 
   .media-section {
-    max-height: 35vh;
-    min-height: 35vh;
-    height: 35vh;
+    max-height: 32vh;
+    min-height: 32vh;
+    height: 32vh;
   }
 
   .media-section img {
-    max-height: 35vh;
+    max-height: 32vh;
   }
 
   .details-section {
-    height: 65vh;
-    max-height: 65vh;
+    height: 68vh;
+    max-height: 68vh;
   }
 
   .user-header {
-    padding: 10px 12px;
+    padding: 8px 12px;
   }
 
   .caption-section {
-    padding: 10px 12px;
-    max-height: 70px;
+    padding: 8px 12px;
+    max-height: 50px;
   }
 
   .comments-container {
-    padding: 10px 12px;
+    padding: 8px 12px;
   }
 
   .comment-item {
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .comment-header {
@@ -947,11 +947,11 @@
   }
 
   .interaction-section {
-    padding: 8px 12px;
+    padding: 6px 12px;
   }
 
   .comment-input-section {
-    padding: 10px 12px;
+    padding: 8px 12px;
     padding-bottom: 80px; /* Add space for bottom navigation */
   }
 

@@ -57,7 +57,10 @@ setInterval(async () => {
 }, 10000); // Run every 10 seconds
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['https://fluxgram-wtqp.vercel.app', 'https://fluxgram.vercel.app', 'http://localhost:4200'],
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

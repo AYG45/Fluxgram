@@ -86,50 +86,6 @@
           }
         </div>
 
-        <!-- Bottom Section: Comment Input -->
-        <div class="comment-input-section">
-          <input 
-            type="text" 
-            placeholder="Add a comment..."
-            [(ngModel)]="commentText"
-            (keyup.enter)="submitComment()"
-            class="comment-input"
-            #commentInput>
-          <button 
-            class="emoji-button"
-            type="button"
-            (click)="toggleEmojiPicker()"
-            title="Add emoji">
-            😊
-          </button>
-          <button 
-            class="post-button" 
-            (click)="submitComment()" 
-            [disabled]="!commentText.trim()">
-            Post
-          </button>
-          
-          <!-- Emoji Picker -->
-          @if (showEmojiPicker) {
-            <div class="emoji-picker" (click)="$event.stopPropagation()">
-              <div class="emoji-picker-header">
-                <span>Emojis</span>
-                <button class="emoji-close" (click)="toggleEmojiPicker()">✕</button>
-              </div>
-              <div class="emoji-grid">
-                @for (emoji of emojis; track emoji) {
-                  <button 
-                    class="emoji-item" 
-                    (click)="addEmoji(emoji)"
-                    type="button">
-                    {{ emoji }}
-                  </button>
-                }
-              </div>
-            </div>
-          }
-        </div>
-
         <!-- Interaction Section -->
         <div class="interaction-section">
           <div class="action-buttons">
@@ -176,6 +132,50 @@
               </button>
             }
           </div>
+        </div>
+
+        <!-- Bottom Section: Comment Input -->
+        <div class="comment-input-section">
+          <input 
+            type="text" 
+            placeholder="Add a comment..."
+            [(ngModel)]="commentText"
+            (keyup.enter)="submitComment()"
+            class="comment-input"
+            #commentInput>
+          <button 
+            class="emoji-button"
+            type="button"
+            (click)="toggleEmojiPicker()"
+            title="Add emoji">
+            😊
+          </button>
+          <button 
+            class="post-button" 
+            (click)="submitComment()" 
+            [disabled]="!commentText.trim()">
+            Post
+          </button>
+          
+          <!-- Emoji Picker -->
+          @if (showEmojiPicker) {
+            <div class="emoji-picker" (click)="$event.stopPropagation()">
+              <div class="emoji-picker-header">
+                <span>Emojis</span>
+                <button class="emoji-close" (click)="toggleEmojiPicker()">✕</button>
+              </div>
+              <div class="emoji-grid">
+                @for (emoji of emojis; track emoji) {
+                  <button 
+                    class="emoji-item" 
+                    (click)="addEmoji(emoji)"
+                    type="button">
+                    {{ emoji }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
         </div>
         </div>
       </div>

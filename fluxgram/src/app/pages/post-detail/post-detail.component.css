@@ -382,7 +382,7 @@
   cursor: pointer;
   padding: 4px;
   transition: transform 0.2s;
-  color: #262626;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -392,7 +392,7 @@
 .likes-count {
   font-weight: 600;
   font-size: 14px;
-  color: #262626;
+  color: #fff;
   margin-left: 4px;
   margin-right: 4px;
   display: flex;
@@ -402,16 +402,16 @@
 
 .action-btn svg {
   display: block;
-  stroke: #262626;
+  stroke: #fff;
 }
 
 .action-btn svg[fill="currentColor"] {
-  fill: #262626;
+  fill: #fff;
   stroke: none;
 }
 
 .action-btn svg[fill="none"] {
-  stroke: #262626;
+  stroke: #fff;
 }
 
 .action-btn:hover {

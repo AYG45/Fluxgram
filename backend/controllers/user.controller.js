@@ -5,8 +5,8 @@ const Notification = require('../models/notification.model');
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.params.username })
-      .populate('posts')
-      .select('-password');
+      .select('-password -posts')
+      .lean();
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -14,6 +14,10 @@ exports.getProfile = async (req, res) => {
 
     const isFollowing = req.userId ? user.followers.includes(req.userId) : false;
     const followsYou = req.userId ? user.following.includes(req.userId) : false;
+
+    // Get post count without loading all posts
+    const Post = require('../models/post.model');
+    const postCount = await Post.countDocuments({ user: user._id });
 
     res.json({
       id: user._id,
@@ -23,7 +27,7 @@ exports.getProfile = async (req, res) => {
       bio: user.bio,
       followers: user.followers.length,
       following: user.following.length,
-      posts: user.posts.length,
+      posts: postCount,
       isFollowing,
       followsYou
     });

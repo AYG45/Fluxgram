@@ -6,26 +6,27 @@ const Notification = require('../models/notification.model');
 exports.getPosts = async (req, res) => {
   try {
     // Get current user's following list
-    const currentUser = await User.findById(req.userId);
+    const currentUser = await User.findById(req.userId).select('following saved').lean();
     
     if (!currentUser) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     // Get posts from users the current user follows (excluding own posts)
-    const followingIds = currentUser.following;
+    const followingIds = currentUser.following || [];
     
     const posts = await Post.find({ user: { $in: followingIds } })
       .populate('user', 'username fullName avatar')
-      .populate('comments.user', 'username avatar')
+      .select('-comments')
       .sort({ createdAt: -1 })
-      .limit(50);
+      .limit(50)
+      .lean();
 
     // Filter out posts with null users (deleted users)
     const validPosts = posts.filter(post => post.user != null);
 
     const formattedPosts = validPosts.map(post => {
-      const isSaved = currentUser.saved ? currentUser.saved.includes(post._id.toString()) : false;
+      const isSaved = currentUser.saved ? currentUser.saved.some(id => id.toString() === post._id.toString()) : false;
       
       return {
         id: post._id,
@@ -35,8 +36,8 @@ exports.getPosts = async (req, res) => {
         images: post.images,
         caption: post.caption,
         likes: post.likes.length,
-        comments: post.comments.length,
-        isLiked: req.userId ? post.likes.includes(req.userId) : false,
+        comments: 0,
+        isLiked: post.likes.some(id => id.toString() === req.userId),
         isSaved: isSaved,
         createdAt: post.createdAt,
         tags: post.tags || []
@@ -56,7 +57,7 @@ exports.getUserPosts = async (req, res) => {
     const { username } = req.params;
     
     // Find user by username
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).select('_id').lean();
     
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -64,17 +65,18 @@ exports.getUserPosts = async (req, res) => {
 
     const posts = await Post.find({ user: user._id })
       .populate('user', 'username fullName avatar')
-      .populate('comments.user', 'username avatar')
-      .sort({ createdAt: -1 });
+      .select('-comments')
+      .sort({ createdAt: -1 })
+      .lean();
 
     // Get current user's saved posts
     let currentUser = null;
     if (req.userId) {
-      currentUser = await User.findById(req.userId);
+      currentUser = await User.findById(req.userId).select('saved').lean();
     }
 
     const formattedPosts = posts.map(post => {
-      const isSaved = currentUser && currentUser.saved ? currentUser.saved.includes(post._id.toString()) : false;
+      const isSaved = currentUser && currentUser.saved ? currentUser.saved.some(id => id.toString() === post._id.toString()) : false;
       
       return {
         id: post._id,
@@ -84,8 +86,8 @@ exports.getUserPosts = async (req, res) => {
         images: post.images,
         caption: post.caption,
         likes: post.likes.length,
-        comments: post.comments.length,
-        isLiked: req.userId ? post.likes.includes(req.userId) : false,
+        comments: 0,
+        isLiked: req.userId ? post.likes.some(id => id.toString() === req.userId) : false,
         isSaved: isSaved,
         createdAt: post.createdAt,
         tags: post.tags || []

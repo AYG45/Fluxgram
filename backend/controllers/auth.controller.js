@@ -14,9 +14,35 @@ exports.register = async (req, res) => {
       });
     }
 
-    if (password.length < 6) {
+    // Email validation
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
       return res.status(400).json({ 
-        error: 'Password must be at least 6 characters' 
+        error: 'Please provide a valid email address' 
+      });
+    }
+
+    // Username validation (alphanumeric, underscore, dot, 3-30 chars)
+    const usernameRegex = /^[a-zA-Z0-9._]{3,30}$/;
+    if (!usernameRegex.test(username)) {
+      return res.status(400).json({ 
+        error: 'Username must be 3-30 characters and contain only letters, numbers, dots, and underscores' 
+      });
+    }
+
+    // Password validation (min 8 chars, at least 1 uppercase, 1 lowercase, 1 number, 1 special char)
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({ 
+        error: 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character (@$!%*?&#)' 
+      });
+    }
+
+    // Full name validation (letters and spaces only, 2-50 chars)
+    const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+    if (!nameRegex.test(fullName)) {
+      return res.status(400).json({ 
+        error: 'Full name must be 2-50 characters and contain only letters and spaces' 
       });
     }
 
@@ -118,6 +144,14 @@ exports.login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ 
         error: 'Please provide email and password' 
+      });
+    }
+
+    // Email validation
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ 
+        error: 'Please provide a valid email address' 
       });
     }
 

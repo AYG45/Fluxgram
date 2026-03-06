@@ -36,11 +36,39 @@ exports.register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Handle avatar
-    let avatarUrl = `https://i.pravatar.cc/150?u=${username}`;
+    let avatarUrl = null;
     if (req.file) {
       const githubStorage = require('../config/github');
       const filename = `avatar-${Date.now()}-${Math.round(Math.random() * 1E9)}.${req.file.originalname.split('.').pop()}`;
       avatarUrl = await githubStorage.uploadFile(req.file.buffer, filename, 'avatars');
+    } else {
+      // Select random avatar from bandar folder
+      const fs = require('fs');
+      const path = require('path');
+      const bandarPath = path.join(__dirname, '../bandar');
+      
+      try {
+        const files = fs.readdirSync(bandarPath).filter(file => {
+          const ext = path.extname(file).toLowerCase();
+          return ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext);
+        });
+        
+        if (files.length > 0) {
+          const randomFile = files[Math.floor(Math.random() * files.length)];
+          // Upload the random avatar to GitHub storage
+          const githubStorage = require('../config/github');
+          const fileBuffer = fs.readFileSync(path.join(bandarPath, randomFile));
+          const filename = `avatar-${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(randomFile)}`;
+          avatarUrl = await githubStorage.uploadFile(fileBuffer, filename, 'avatars');
+        } else {
+          // Fallback to pravatar if no images in bandar folder
+          avatarUrl = `https://i.pravatar.cc/150?u=${username}`;
+        }
+      } catch (err) {
+        console.error('Error reading bandar folder:', err);
+        // Fallback to pravatar
+        avatarUrl = `https://i.pravatar.cc/150?u=${username}`;
+      }
     }
 
     // Create user

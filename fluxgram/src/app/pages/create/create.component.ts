@@ -26,8 +26,22 @@ import { PostService } from '../../services/post.service';
             <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelect($event)">
           </div>
         } @else {
+          <!-- Floating Action Buttons (Mobile Only) -->
+          <button class="floating-cancel-btn" (click)="cancel()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+          <button class="floating-share-btn" (click)="share()" [disabled]="loading()">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </button>
+
           <div class="preview-area">
-            <img [src]="previewUrl()" alt="Preview" class="preview-image">
+            <div class="image-container">
+              <img [src]="previewUrl()" alt="Preview" class="preview-image">
+            </div>
             <div class="caption-area">
               <textarea 
                 placeholder="Write a caption... (use #hashtags)"
@@ -154,11 +168,27 @@ import { PostService } from '../../services/post.service';
       max-height: calc(90vh - 60px);
     }
 
-    .preview-image {
+    .image-container {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: var(--bg-secondary);
+      overflow: hidden;
+    }
+
+    .preview-image {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .floating-cancel-btn,
+    .floating-share-btn {
+      display: none;
     }
 
     .caption-area {
@@ -241,12 +271,64 @@ import { PostService } from '../../services/post.service';
 
       .preview-area {
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr auto;
+        grid-template-rows: 400px auto;
+        max-height: 100vh;
+        overflow-y: auto;
+      }
+
+      .image-container {
+        height: 400px;
+        flex-shrink: 0;
       }
 
       .caption-area {
         border-left: none;
         border-top: 1px solid var(--border);
+      }
+
+      /* Hide bottom action buttons on mobile */
+      .post-actions {
+        display: none;
+      }
+
+      /* Show floating action buttons on mobile */
+      .floating-cancel-btn,
+      .floating-share-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 20px;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        z-index: 1001;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transition: all 0.2s;
+      }
+
+      .floating-cancel-btn {
+        left: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+      }
+
+      .floating-share-btn {
+        right: 20px;
+        background: var(--text-primary);
+        color: var(--bg-primary);
+      }
+
+      .floating-share-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .floating-cancel-btn:active,
+      .floating-share-btn:active:not(:disabled) {
+        transform: scale(0.95);
       }
     }
   `]

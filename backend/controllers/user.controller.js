@@ -228,3 +228,36 @@ exports.getFollowing = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch following users' });
   }
 };
+
+// Search users
+exports.searchUsers = async (req, res) => {
+  try {
+    const { q } = req.query;
+    
+    if (!q || q.trim().length === 0) {
+      return res.json([]);
+    }
+    
+    const searchQuery = q.trim();
+    
+    const users = await User.find({
+      $or: [
+        { username: { $regex: searchQuery, $options: 'i' } },
+        { fullName: { $regex: searchQuery, $options: 'i' } }
+      ]
+    })
+    .select('username fullName avatar')
+    .limit(10)
+    .lean();
+    
+    res.json(users.map(user => ({
+      id: user._id,
+      username: user.username,
+      fullName: user.fullName,
+      avatar: user.avatar
+    })));
+  } catch (error) {
+    console.error('Search users error:', error);
+    res.status(500).json({ error: 'Failed to search users' });
+  }
+};

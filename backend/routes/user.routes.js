@@ -24,6 +24,9 @@ const optionalAuth = (req, res, next) => {
 // GET /api/users/check-username/:username - Check username availability (protected)
 router.get('/check-username/:username', auth, userController.checkUsername);
 
+// GET /api/users/search - Search users (protected)
+router.get('/search', auth, userController.searchUsers);
+
 // GET /api/users/:username - Get user profile (with optional auth)
 router.get('/:username', optionalAuth, userController.getProfile);
 

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { PostService } from '../../services/post.service';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-explore',
@@ -33,16 +34,34 @@ import { AuthService } from '../../services/auth.service';
           }
         </div>
 
-        @if (showSearchResults() && searchResults().length > 0) {
+        @if (showSearchResults() && (userSearchResults().length > 0 || searchResults().length > 0)) {
           <div class="search-dropdown">
-            @for (result of searchResults(); track result.tag) {
-              <div class="search-result-item" (click)="selectTag(result.tag)">
-                <span class="tag-hash">#</span>
-                <div class="tag-info">
-                  <div class="tag-name">{{ result.tag }}</div>
-                  <div class="tag-count">{{ result.count }} posts</div>
+            @if (userSearchResults().length > 0) {
+              <div class="search-section-header">Users</div>
+              @for (user of userSearchResults(); track user.id) {
+                <div class="search-result-item user-item" (click)="selectUser(user.username)">
+                  <img [src]="user.avatar" [alt]="user.username" class="user-avatar">
+                  <div class="user-info">
+                    <div class="user-username">{{ user.username }}</div>
+                    <div class="user-fullname">{{ user.fullName }}</div>
+                  </div>
                 </div>
-              </div>
+              }
+            }
+            @if (searchResults().length > 0) {
+              @if (userSearchResults().length > 0) {
+                <div class="search-divider"></div>
+              }
+              <div class="search-section-header">Tags</div>
+              @for (result of searchResults(); track result.tag) {
+                <div class="search-result-item" (click)="selectTag(result.tag)">
+                  <span class="tag-hash">#</span>
+                  <div class="tag-info">
+                    <div class="tag-name">{{ result.tag }}</div>
+                    <div class="tag-count">{{ result.count }} posts</div>
+                  </div>
+                </div>
+              }
             }
           </div>
         }
@@ -167,10 +186,25 @@ import { AuthService } from '../../services/auth.service';
       background: var(--bg-secondary);
       border: 1px solid var(--border);
       border-radius: 12px;
-      max-height: 300px;
+      max-height: 400px;
       overflow-y: auto;
       box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       z-index: 100;
+    }
+
+    .search-section-header {
+      padding: 12px 20px 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .search-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
     }
 
     .search-result-item {
@@ -184,6 +218,35 @@ import { AuthService } from '../../services/auth.service';
 
     .search-result-item:hover {
       background: var(--bg-tertiary);
+    }
+
+    .user-item {
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border);
+    }
+
+    .user-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .user-username {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .user-fullname {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
     }
 
     .tag-hash {
@@ -367,6 +430,7 @@ import { AuthService } from '../../services/auth.service';
 export class ExploreComponent implements OnInit {
   private postService = inject(PostService);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private router = inject(Router);
   
   currentUser = this.authService.getCurrentUser();
@@ -375,6 +439,7 @@ export class ExploreComponent implements OnInit {
   loading = signal(true);
   selectedPost = signal<any>(null);
   searchResults = signal<{ tag: string; count: number }[]>([]);
+  userSearchResults = signal<any[]>([]);
   showSearchResults = signal(false);
   activeTag = signal<string | null>(null);
   searchTimeout: any = null;
@@ -395,6 +460,7 @@ export class ExploreComponent implements OnInit {
     if (!query) {
       this.showSearchResults.set(false);
       this.activeTag.set(null);
+      this.userSearchResults.set([]);
       this.loadExplorePosts();
       return;
     }
@@ -404,16 +470,16 @@ export class ExploreComponent implements OnInit {
 
     // Debounce search
     this.searchTimeout = setTimeout(async () => {
-      if (query.startsWith('#')) {
-        // Search for tags
-        const tagQuery = query.substring(1);
-        const tags = await this.postService.searchTags(tagQuery);
-        this.searchResults.set(tags);
-      } else {
-        // Search for tags without #
-        const tags = await this.postService.searchTags(query);
-        this.searchResults.set(tags);
-      }
+      // Search for both users and tags
+      const [users, tags] = await Promise.all([
+        this.userService.searchUsers(query),
+        query.startsWith('#') 
+          ? this.postService.searchTags(query.substring(1))
+          : this.postService.searchTags(query)
+      ]);
+      
+      this.userSearchResults.set(users);
+      this.searchResults.set(tags);
     }, 300);
   }
 
@@ -440,7 +506,13 @@ export class ExploreComponent implements OnInit {
     this.searchQuery = '';
     this.showSearchResults.set(false);
     this.activeTag.set(null);
+    this.userSearchResults.set([]);
     this.loadExplorePosts();
+  }
+
+  selectUser(username: string) {
+    this.showSearchResults.set(false);
+    this.router.navigate(['/profile', username]);
   }
 
   async loadExplorePosts() {

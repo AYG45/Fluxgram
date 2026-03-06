@@ -118,6 +118,16 @@ export class UserService {
     }
   }
 
+  async searchUsers(query: string): Promise<any[]> {
+    try {
+      if (!query.trim()) return [];
+      return await this.api.get<any[]>(`/users/search?q=${encodeURIComponent(query)}`, true);
+    } catch (error) {
+      console.error('Failed to search users:', error);
+      return [];
+    }
+  }
+
   private loadMockSuggestions() {
     const mockSuggestions: Suggestion[] = [
       { id: '1', username: 'creative_studio', fullName: 'Creative Studio', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop', reason: 'Followed by sarah_j', following: false },

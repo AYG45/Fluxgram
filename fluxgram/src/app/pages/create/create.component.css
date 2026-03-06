@@ -3,14 +3,12 @@
   padding: 24px;
   margin-left: var(--nav-width);
   background: var(--bg-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .create-container {
-  max-width: 800px;
+  max-width: 1200px;
   width: 100%;
+  margin: 0 auto;
 }
 
 .create-header {
@@ -80,14 +78,15 @@
 
 .upload-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 400px;
   gap: 24px;
   align-items: start;
 }
 
 .upload-area {
   width: 100%;
-  max-height: 600px;
+  min-height: 400px;
+  max-height: 70vh;
   background: var(--bg-secondary);
   border: 2px dashed var(--border-color);
   border-radius: var(--radius-xl);
@@ -100,6 +99,7 @@
 
 .upload-area:not(.has-file) {
   aspect-ratio: 1;
+  max-height: 500px;
 }
 
 .upload-area:hover {
@@ -154,7 +154,7 @@
 .preview-area {
   position: relative;
   width: 100%;
-  max-height: 600px;
+  max-height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,7 +163,7 @@
 
 .preview-image {
   max-width: 100%;
-  max-height: 600px;
+  max-height: 70vh;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -303,27 +303,47 @@
 @media (max-width: 768px) {
   .create-page { 
     padding: 16px; 
-    padding-bottom: 80px;
+    padding-bottom: 100px;
     margin-left: 0;
+  }
+
+  .create-container {
+    max-width: 100%;
   }
 
   .upload-section {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .upload-area {
-    max-height: 400px;
+    min-height: 300px;
+    max-height: 50vh;
   }
 
   .upload-area:not(.has-file) {
     aspect-ratio: 4/3;
+    max-height: 400px;
   }
 
   .preview-area {
-    max-height: 400px;
+    max-height: 50vh;
   }
 
   .preview-image {
-    max-height: 400px;
+    max-height: 50vh;
+  }
+
+  .post-settings {
+    position: relative;
+  }
+
+  .action-buttons {
+    position: sticky;
+    bottom: 0;
+    background: var(--bg-primary);
+    padding: 16px 0;
+    margin-top: 16px;
+    border-top: 1px solid var(--border);
   }
 }

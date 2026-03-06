@@ -31,6 +31,48 @@ interface Post {
   imports: [CommonModule, FormsModule],
   template: `
     <div class="profile-container">
+      <!-- Mobile Header with More Button -->
+      <div class="mobile-header">
+        <h2 class="mobile-username">{{ profile().username }}</h2>
+        <button class="mobile-more-btn" (click)="showMobileMenu.set(!showMobileMenu())">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Dropdown -->
+      @if (showMobileMenu()) {
+        <div class="mobile-menu-overlay" (click)="showMobileMenu.set(false)">
+          <div class="mobile-menu" (click)="$event.stopPropagation()">
+            <button class="mobile-menu-item" (click)="toggleEditProfile(); showMobileMenu.set(false)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              <span>Edit profile</span>
+            </button>
+            <button class="mobile-menu-item" (click)="toggleTheme(); showMobileMenu.set(false)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+              <span>Switch appearance</span>
+            </button>
+            <div class="mobile-menu-divider"></div>
+            <button class="mobile-menu-item danger" (click)="logout(); showMobileMenu.set(false)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+              <span>Log out</span>
+            </button>
+          </div>
+        </div>
+      }
+
       <!-- Profile Header -->
       <div class="profile-header">
         <div class="profile-info">
@@ -256,6 +298,79 @@ interface Post {
       margin: 0 auto;
       padding: 20px;
       min-height: 100vh;
+    }
+
+    .mobile-header {
+      display: none;
+    }
+
+    .mobile-more-btn {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .mobile-menu {
+      width: 100%;
+      background: var(--bg-secondary);
+      border-radius: 16px 16px 0 0;
+      padding: 8px 0;
+      animation: slideUpMenu 0.3s ease;
+    }
+
+    @keyframes slideUpMenu {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .mobile-menu-item {
+      width: 100%;
+      padding: 16px 20px;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 15px;
+      transition: background 0.2s;
+      text-align: left;
+    }
+
+    .mobile-menu-item:active {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .mobile-menu-item.danger {
+      color: var(--error);
+    }
+
+    .mobile-menu-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
     }
 
     .profile-header {
@@ -633,9 +748,31 @@ interface Post {
 
     @media (max-width: 768px) {
       .profile-container {
-        padding: 16px;
+        padding: 0;
         max-width: 100%;
         margin-bottom: 60px;
+      }
+
+      .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        background: var(--bg-primary);
+        z-index: 10;
+      }
+
+      .mobile-username {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .profile-header {
+        padding: 16px;
       }
 
       .profile-info {
@@ -691,6 +828,7 @@ export class ProfileComponent {
   isEditingProfile = signal(false);
   showFollowers = signal(false);
   showFollowing = signal(false);
+  showMobileMenu = signal(false);
 
   editableProfile = signal<Partial<UserProfile>>({});
 
@@ -770,5 +908,14 @@ export class ProfileComponent {
       return (num / 1000).toFixed(1) + 'K';
     }
     return num.toString();
+  }
+
+  toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+  }
+
+  logout() {
+    console.log('Logging out...');
+    // Add logout logic here
   }
 }

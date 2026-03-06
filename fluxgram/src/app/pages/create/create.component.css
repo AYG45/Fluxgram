@@ -78,14 +78,14 @@
 
 .upload-section {
   display: grid;
-  grid-template-columns: 500px 1fr;
+  grid-template-columns: 400px 1fr;
   gap: 24px;
   align-items: start;
 }
 
 .upload-area {
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
   flex-shrink: 0;
   background: var(--bg-secondary);
   border: 2px dashed var(--border-color);
@@ -317,7 +317,7 @@
 
   .upload-area {
     width: 100%;
-    height: 400px;
+    height: 350px;
   }
 
   .preview-image {

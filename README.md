@@ -180,6 +180,7 @@ MIT License - see LICENSE file for details
 - Inspired by Instagram
 - Built with modern web technologies
 - Designed for learning and portfolio purposes
+- Some parts are vibe coded
 
 ## Support
 

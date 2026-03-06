@@ -1,16 +1,4 @@
 <div class="profile">
-  <!-- Mobile Header with More Button -->
-  <div class="mobile-header">
-    <h2 class="mobile-username">{{ user()?.username }}</h2>
-    <button class="mobile-more-btn" (click)="showMobileMenu.set(!showMobileMenu())">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="12" x2="21" y2="12"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    </button>
-  </div>
-
   <!-- Mobile Menu Dropdown -->
   @if (showMobileMenu()) {
     <div class="mobile-menu-overlay" (click)="showMobileMenu.set(false)">
@@ -52,6 +40,13 @@
       <div class="profile-info">
         <div class="profile-top">
           <h1 class="username">{{ user()!.username }}</h1>
+          <button class="mobile-more-btn" (click)="showMobileMenu.set(!showMobileMenu())">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
           @if (user()!.followsYou && currentUser()?.username !== user()!.username) {
             <span class="follows-you-badge">Follows you</span>
           }

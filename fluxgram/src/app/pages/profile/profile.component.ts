@@ -41,6 +41,7 @@ export class ProfileComponent implements OnInit {
   showPostMenu = signal(false);
   usernameAvailable = signal<boolean | null>(null);
   checkingUsername = signal(false);
+  showMobileMenu = signal(false);
 
   async ngOnInit() {
     // Get username from route or use current user
@@ -414,5 +415,14 @@ export class ProfileComponent implements OnInit {
     } finally {
       this.editLoading.set(false);
     }
+  }
+
+  toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
   }
 }

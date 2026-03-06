@@ -295,6 +295,11 @@
   cursor: not-allowed;
 }
 
+.floating-cancel-btn,
+.floating-share-btn {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .create-page { padding-left: 104px; }
 }
@@ -329,12 +334,48 @@
     position: relative;
   }
 
+  /* Hide bottom action buttons on mobile */
   .action-buttons {
-    position: sticky;
-    bottom: 0;
-    background: var(--bg-primary);
-    padding: 16px 0;
-    margin-top: 16px;
-    border-top: 1px solid var(--border);
+    display: none;
+  }
+
+  /* Show floating action buttons on mobile */
+  .floating-cancel-btn,
+  .floating-share-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+  }
+
+  .floating-cancel-btn {
+    left: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+  }
+
+  .floating-share-btn {
+    right: 20px;
+    background: var(--text-primary);
+    color: var(--bg-primary);
+  }
+
+  .floating-share-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .floating-cancel-btn:active,
+  .floating-share-btn:active {
+    transform: scale(0.95);
   }
 }

@@ -70,7 +70,7 @@
     z-index: 100;
     background: var(--bg-primary);
     border-bottom: none;
-    padding: 16px 20px 12px;
+    padding: 16px 20px 8px;
   }
   
   .home-feed {

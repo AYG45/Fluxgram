@@ -137,8 +137,11 @@ import { StoryService } from '../../services/story.service';
         border-radius: 0;
         border-left: none;
         border-right: none;
+        border-top: none;
+        border-bottom: 1px solid var(--border);
         margin-bottom: 0;
         padding: 12px 16px;
+        background: var(--bg-primary);
       }
 
       .story-ring {

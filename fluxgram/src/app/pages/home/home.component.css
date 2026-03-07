@@ -18,12 +18,11 @@
 }
 
 .app-name {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 600;
   color: var(--text-primary);
   margin: 0;
   text-align: center;
-  font-family: 'Pacifico', cursive;
   letter-spacing: 0.5px;
 }
 
@@ -61,6 +60,7 @@
 @media (max-width: 768px) {
   .home-container {
     padding: 0;
+    background: var(--bg-primary);
   }
 
   .mobile-header {
@@ -69,8 +69,8 @@
     top: 0;
     z-index: 100;
     background: var(--bg-primary);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 20px;
+    border-bottom: none;
+    padding: 16px 20px 12px;
   }
   
   .home-feed {

@@ -27,6 +27,9 @@ router.get('/check-username/:username', auth, userController.checkUsername);
 // GET /api/users/search - Search users (protected)
 router.get('/search', auth, userController.searchUsers);
 
+// GET /api/users/all - Get all users (protected)
+router.get('/all', auth, userController.getAllUsers);
+
 // GET /api/users/:username - Get user profile (with optional auth)
 router.get('/:username', optionalAuth, userController.getProfile);
 

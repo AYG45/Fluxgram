@@ -261,3 +261,36 @@ exports.searchUsers = async (req, res) => {
     res.status(500).json({ error: 'Failed to search users' });
   }
 };
+
+// Get all users (excluding current user and already following)
+exports.getAllUsers = async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.userId);
+    
+    if (!currentUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // Get all users except current user
+    const users = await User.find({
+      _id: { $ne: req.userId }
+    })
+    .select('username fullName avatar bio')
+    .lean();
+    
+    // Map users with following status
+    const usersWithStatus = users.map(user => ({
+      id: user._id,
+      username: user.username,
+      fullName: user.fullName,
+      avatar: user.avatar,
+      bio: user.bio,
+      following: currentUser.following.some(id => id.toString() === user._id.toString())
+    }));
+    
+    res.json(usersWithStatus);
+  } catch (error) {
+    console.error('Get all users error:', error);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+};

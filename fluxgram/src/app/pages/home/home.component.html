@@ -20,8 +20,12 @@
       </div>
     }
     
-    @for (post of posts(); track post.id) {
+    @for (post of posts(); track post.id; let i = $index) {
       <app-post-card [post]="post" />
+      
+      @if (i === 0 && posts().length > 1) {
+        <app-horizontal-suggestions />
+      }
     }
   </div>
   

@@ -111,6 +111,7 @@ import { StoryService } from '../../services/story.service';
       font-weight: 600;
       cursor: pointer;
       line-height: 1;
+      padding: 0;
     }
 
     .story-username {
@@ -138,6 +139,13 @@ import { StoryService } from '../../services/story.service';
         border-right: none;
         margin-bottom: 0;
         padding: 12px 16px;
+      }
+
+      .add-story {
+        width: 18px;
+        height: 18px;
+        font-size: 14px;
+        border-width: 2px;
       }
     }
   `]

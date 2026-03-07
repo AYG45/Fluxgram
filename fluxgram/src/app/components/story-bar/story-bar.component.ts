@@ -107,7 +107,7 @@ import { StoryService } from '../../services/story.service';
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       line-height: 1;
@@ -153,12 +153,12 @@ import { StoryService } from '../../services/story.service';
       }
 
       .add-story {
-        width: 16px;
-        height: 16px;
-        font-size: 12px;
+        width: 14px;
+        height: 14px;
+        font-size: 10px;
         border-width: 2px;
-        bottom: -1px;
-        right: -1px;
+        bottom: 0;
+        right: 0;
       }
     }
   `]

@@ -153,10 +153,10 @@ import { StoryService } from '../../services/story.service';
       }
 
       .add-story {
-        width: 16px;
-        height: 16px;
-        font-size: 11px;
-        border-width: 2px;
+        width: 16px !important;
+        height: 16px !important;
+        font-size: 11px !important;
+        border-width: 2px !important;
         bottom: 0;
         right: 0;
       }

@@ -121,12 +121,8 @@ import { UserService } from '../../services/user.service';
 
     /* Search Section */
     .search-section {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--bg-primary);
-      padding-bottom: 16px;
-      margin-bottom: 16px;
+      position: relative;
+      margin-bottom: 32px;
       max-width: 100%;
     }
 
@@ -399,12 +395,7 @@ import { UserService } from '../../services/user.service';
       }
 
       .search-section {
-        margin-bottom: 0;
-        padding-bottom: 12px;
-        margin-left: -12px;
-        margin-right: -12px;
-        padding-left: 12px;
-        padding-right: 12px;
+        margin-bottom: 16px;
       }
 
       .explore-grid {

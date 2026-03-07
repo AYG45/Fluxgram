@@ -153,9 +153,9 @@ import { StoryService } from '../../services/story.service';
       }
 
       .add-story {
-        width: 14px;
-        height: 14px;
-        font-size: 10px;
+        width: 16px;
+        height: 16px;
+        font-size: 11px;
         border-width: 2px;
         bottom: 0;
         right: 0;

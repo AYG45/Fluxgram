@@ -141,11 +141,24 @@ import { StoryService } from '../../services/story.service';
         padding: 12px 16px;
       }
 
-      .add-story {
-        width: 18px;
-        height: 18px;
-        font-size: 14px;
+      .story-ring {
+        width: 60px;
+        height: 60px;
+      }
+
+      .story-avatar {
+        width: 56px;
+        height: 56px;
         border-width: 2px;
+      }
+
+      .add-story {
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
+        border-width: 2px;
+        bottom: -1px;
+        right: -1px;
       }
     }
   `]

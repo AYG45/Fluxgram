@@ -12,6 +12,21 @@
   padding-right: 40px;
 }
 
+/* Mobile Header */
+.mobile-header {
+  display: none;
+}
+
+.app-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+  letter-spacing: 1px;
+}
+
 .home-feed {
   flex: 0 0 630px;
   width: 630px;
@@ -46,6 +61,17 @@
 @media (max-width: 768px) {
   .home-container {
     padding: 0;
+    flex-direction: column;
+  }
+
+  .mobile-header {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
   }
   
   .home-feed {

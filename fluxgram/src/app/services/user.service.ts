@@ -128,6 +128,15 @@ export class UserService {
     }
   }
 
+  async getAllUsers(): Promise<any[]> {
+    try {
+      return await this.api.get<any[]>('/users/all', true);
+    } catch (error) {
+      console.error('Failed to load all users:', error);
+      return [];
+    }
+  }
+
   private loadMockSuggestions() {
     const mockSuggestions: Suggestion[] = [
       { id: '1', username: 'creative_studio', fullName: 'Creative Studio', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop', reason: 'Followed by sarah_j', following: false },

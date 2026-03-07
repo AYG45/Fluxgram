@@ -15,12 +15,25 @@ exports.getPosts = async (req, res) => {
     // Get posts from users the current user follows (excluding own posts)
     const followingIds = currentUser.following || [];
     
-    const posts = await Post.find({ user: { $in: followingIds } })
-      .populate('user', 'username fullName avatar')
-      .select('-comments')
-      .sort({ createdAt: -1 })
-      .limit(50)
-      .lean();
+    let posts;
+    
+    // If user is not following anyone, show 2 random posts from any user
+    if (followingIds.length === 0) {
+      posts = await Post.aggregate([
+        { $match: { user: { $ne: req.userId } } },
+        { $sample: { size: 2 } }
+      ]);
+      
+      // Populate user data for random posts
+      await Post.populate(posts, { path: 'user', select: 'username fullName avatar' });
+    } else {
+      posts = await Post.find({ user: { $in: followingIds } })
+        .populate('user', 'username fullName avatar')
+        .select('-comments')
+        .sort({ createdAt: -1 })
+        .limit(50)
+        .lean();
+    }
 
     // Filter out posts with null users (deleted users)
     const validPosts = posts.filter(post => post.user != null);

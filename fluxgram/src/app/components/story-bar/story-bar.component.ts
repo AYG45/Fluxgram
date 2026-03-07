@@ -11,8 +11,8 @@ import { StoryService } from '../../services/story.service';
   template: `
     <div class="story-bar">
       @if (currentUser()) {
-        <div class="story-item your-story" (click)="viewMyStory()">
-          <div class="story-ring" [class.seen]="myStories().length > 0 && myStories()[0].hasViewed">
+        <div class="story-item your-story">
+          <div class="story-ring" [class.seen]="myStories().length > 0 && myStories()[0].hasViewed" (click)="handleStoryClick()">
             <img [src]="currentUser()!.avatar || 'https://i.pravatar.cc/150?img=13'" alt="Your story" class="story-avatar">
             <button class="add-story" (mousedown)="onAddStoryClick($event)">+</button>
             <input 
@@ -159,6 +159,7 @@ import { StoryService } from '../../services/story.service';
         border-width: 2px !important;
         bottom: 0;
         right: 0;
+        display: none;
       }
     }
   `]
@@ -237,6 +238,17 @@ export class StoryBarComponent implements OnInit {
     if (myGroup && myGroup.stories.length > 0) {
       // Navigate to story viewer
       this.router.navigate(['/stories', userId]);
+    }
+  }
+
+  handleStoryClick() {
+    const myStoriesCount = this.myStories().length;
+    
+    // If user has stories, view them; otherwise, open file upload
+    if (myStoriesCount > 0) {
+      this.viewMyStory();
+    } else {
+      this.openStoryUpload();
     }
   }
 }

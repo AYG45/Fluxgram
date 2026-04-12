@@ -80,10 +80,15 @@ export class NavigationComponent implements OnInit {
 
   async ngOnInit() {
     await this.notificationService.loadNotifications();
-    
+
     // Refresh notifications every 30 seconds
     setInterval(() => {
       this.notificationService.loadNotifications();
     }, 30000);
+  }
+
+  onNavClick() {
+    // Minimal haptic feedback for nav switching (lighter than tap)
+    this.haptic.selection();
   }
 }

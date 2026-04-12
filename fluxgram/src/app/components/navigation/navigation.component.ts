@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
 import { ThemeService } from '../../services/theme.service';
 import { AuthService } from '../../services/auth.service';
+import { HapticService } from '../../services/haptic.service';
 
 @Component({
   selector: 'app-navigation',
@@ -17,6 +18,7 @@ export class NavigationComponent implements OnInit {
   private router = inject(Router);
   private themeService = inject(ThemeService);
   private authService = inject(AuthService);
+  private haptic = inject(HapticService);
   
   notifications = this.notificationService.getNotifications();
   
@@ -37,6 +39,7 @@ export class NavigationComponent implements OnInit {
 
   toggleMenu() {
     this.showMenu.update(v => !v);
+    this.haptic.tap();
   }
   
   closeMenu() {
@@ -44,16 +47,19 @@ export class NavigationComponent implements OnInit {
   }
   
   toggleTheme() {
+    this.haptic.mediumTap();
     this.themeService.toggleTheme();
     this.closeMenu();
   }
   
   logout() {
+    this.haptic.heavyTap();
     this.authService.logout();
     this.router.navigate(['/login']);
   }
   
   editProfile() {
+    this.haptic.tap();
     const currentUser = this.authService.getCurrentUser();
     const currentRoute = this.router.url;
     

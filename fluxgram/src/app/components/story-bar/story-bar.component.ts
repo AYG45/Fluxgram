@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { StoryService } from '../../services/story.service';
+import { HapticService } from '../../services/haptic.service';
 
 @Component({
   selector: 'app-story-bar',
@@ -171,6 +172,7 @@ export class StoryBarComponent implements OnInit {
   private authService = inject(AuthService);
   private storyService = inject(StoryService);
   private router = inject(Router);
+  private haptic = inject(HapticService);
   
   currentUser = this.authService.getCurrentUser();
   storyGroups = this.storyService.getStories();
@@ -207,6 +209,7 @@ export class StoryBarComponent implements OnInit {
   onAddStoryClick(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
+    this.haptic.mediumTap();
     this.openStoryUpload();
   }
 
@@ -219,6 +222,7 @@ export class StoryBarComponent implements OnInit {
           const file = input.files[i];
           await this.storyService.createStory(file);
         }
+        this.haptic.success();
         input.value = ''; // Reset input
       } catch (error) {
         console.error('Failed to create story:', error);
@@ -228,6 +232,7 @@ export class StoryBarComponent implements OnInit {
   }
 
   viewStory(group: any) {
+    this.haptic.tap();
     // Navigate to story viewer
     this.router.navigate(['/stories', group.userId]);
   }
@@ -246,7 +251,8 @@ export class StoryBarComponent implements OnInit {
 
   handleStoryClick() {
     const myStoriesCount = this.myStories().length;
-    
+    this.haptic.tap();
+
     // If user has stories, view them; otherwise, open file upload
     if (myStoriesCount > 0) {
       this.viewMyStory();

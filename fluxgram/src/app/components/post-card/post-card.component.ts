@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { Post } from '../../models/post.model';
 import { PostService } from '../../services/post.service';
 import { AuthService } from '../../services/auth.service';
+import { HapticService } from '../../services/haptic.service';
 
 @Component({
   selector: 'app-post-card',
@@ -19,6 +20,7 @@ export class PostCardComponent {
   private postService = inject(PostService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private haptic = inject(HapticService);
   private lastTap = 0;
   
   showMenu = signal(false);
@@ -38,6 +40,7 @@ export class PostCardComponent {
 
   toggleMenu() {
     this.showMenu.update(v => !v);
+    this.haptic.tap();
   }
 
   closeMenu() {
@@ -49,6 +52,7 @@ export class PostCardComponent {
       return;
     }
 
+    this.haptic.heavyTap();
     try {
       await this.postService.deletePost(this.post.id);
       this.closeMenu();
@@ -60,10 +64,12 @@ export class PostCardComponent {
 
   onLike() {
     this.postService.likePost(this.post.id);
+    this.haptic.success();
   }
 
   onSave() {
     this.postService.savePost(this.post.id);
+    this.haptic.mediumTap();
   }
 
   openPostDetail(event?: Event) {
@@ -84,6 +90,7 @@ export class PostCardComponent {
     if (tapLength < 300 && tapLength > 0) {
       // Toggle like/unlike
       this.onLike();
+      this.haptic.success();
       this.showLikeAnimation(event);
       event.preventDefault();
     }

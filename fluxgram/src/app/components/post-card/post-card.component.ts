@@ -40,7 +40,7 @@ export class PostCardComponent {
 
   toggleMenu() {
     this.showMenu.update(v => !v);
-    this.haptic.tap();
+    this.haptic.selection();
   }
 
   closeMenu() {
@@ -52,7 +52,7 @@ export class PostCardComponent {
       return;
     }
 
-    this.haptic.heavyTap();
+    this.haptic.selection();
     try {
       await this.postService.deletePost(this.post.id);
       this.closeMenu();
@@ -64,12 +64,12 @@ export class PostCardComponent {
 
   onLike() {
     this.postService.likePost(this.post.id);
-    this.haptic.success();
+    this.haptic.selection();
   }
 
   onSave() {
     this.postService.savePost(this.post.id);
-    this.haptic.mediumTap();
+    this.haptic.selection();
   }
 
   openPostDetail(event?: Event) {
@@ -90,7 +90,6 @@ export class PostCardComponent {
     if (tapLength < 300 && tapLength > 0) {
       // Toggle like/unlike
       this.onLike();
-      this.haptic.success();
       this.showLikeAnimation(event);
       event.preventDefault();
     }

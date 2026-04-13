@@ -39,7 +39,7 @@ export class NavigationComponent implements OnInit {
 
   toggleMenu() {
     this.showMenu.update(v => !v);
-    this.haptic.tap();
+    this.haptic.selection();
   }
   
   closeMenu() {
@@ -47,19 +47,19 @@ export class NavigationComponent implements OnInit {
   }
   
   toggleTheme() {
-    this.haptic.mediumTap();
+    this.haptic.selection();
     this.themeService.toggleTheme();
     this.closeMenu();
   }
   
   logout() {
-    this.haptic.heavyTap();
+    this.haptic.selection();
     this.authService.logout();
     this.router.navigate(['/login']);
   }
   
   editProfile() {
-    this.haptic.tap();
+    this.haptic.selection();
     const currentUser = this.authService.getCurrentUser();
     const currentRoute = this.router.url;
     

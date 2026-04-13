@@ -209,7 +209,7 @@ export class StoryBarComponent implements OnInit {
   onAddStoryClick(event: MouseEvent) {
     event.stopPropagation();
     event.preventDefault();
-    this.haptic.mediumTap();
+    this.haptic.selection();
     this.openStoryUpload();
   }
 
@@ -222,7 +222,7 @@ export class StoryBarComponent implements OnInit {
           const file = input.files[i];
           await this.storyService.createStory(file);
         }
-        this.haptic.success();
+        this.haptic.selection();
         input.value = ''; // Reset input
       } catch (error) {
         console.error('Failed to create story:', error);
@@ -232,7 +232,7 @@ export class StoryBarComponent implements OnInit {
   }
 
   viewStory(group: any) {
-    this.haptic.tap();
+    this.haptic.selection();
     // Navigate to story viewer
     this.router.navigate(['/stories', group.userId]);
   }
@@ -251,7 +251,7 @@ export class StoryBarComponent implements OnInit {
 
   handleStoryClick() {
     const myStoriesCount = this.myStories().length;
-    this.haptic.tap();
+    this.haptic.selection();
 
     // If user has stories, view them; otherwise, open file upload
     if (myStoriesCount > 0) {
